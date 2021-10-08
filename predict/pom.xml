@@ -80,6 +80,19 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+
+			<!-- Heroku build plugin -->
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>3.0.3</version>
+				<configuration>
+					<appName>mysterious-dusk-84277</appName>
+					<processTypes>
+						<web>java $JAVA_OPTS -cp target/classes:target/dependency/* com.hellena.predict.HellenaApplicationKt</web>
+					</processTypes>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
