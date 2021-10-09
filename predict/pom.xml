@@ -34,17 +34,16 @@
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-stdlib-jdk8</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.24</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -91,6 +90,19 @@
 					<processTypes>
 						<web>java $JAVA_OPTS -cp target/classes:target/dependency/* com.hellena.predict.HellenaApplicationKt</web>
 					</processTypes>
+				</configuration>
+			</plugin>
+
+			<!-- flywaydb (DB schema) plugin) -->
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>8.0.0</version>
+				<configuration>
+					<schemas>public</schemas>
+					<user>pgoavwmpavzajf</user>
+					<password>32b431ad165d91b970df867005d399033b169b0343f146fb778db3fc8fae4868</password>
+					<url>jdbc:postgresql://ec2-46-137-177-160.eu-west-1.compute.amazonaws.com:5432/d8km1ldggaais3</url>
 				</configuration>
 			</plugin>
 		</plugins>
