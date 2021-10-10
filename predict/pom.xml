@@ -17,6 +17,7 @@
 		<java.version>1.8</java.version>
 		<kotlin.version>1.5.31</kotlin.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -38,6 +39,12 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.2.24</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -104,6 +111,38 @@
 					<password>32b431ad165d91b970df867005d399033b169b0343f146fb778db3fc8fae4868</password>
 					<url>jdbc:postgresql://ec2-46-137-177-160.eu-west-1.compute.amazonaws.com:5432/d8km1ldggaais3</url>
 				</configuration>
+			</plugin>
+
+			<!-- REST code generation by OpenAPI Specification
+				https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.md
+			-->
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>5.1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/api/api.yaml</inputSpec>
+							<generatorName>kotlin-spring</generatorName>
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<enablePostProcessFile>true</enablePostProcessFile>
+							<generateApiTests>false</generateApiTests>
+							<output>${project.build.directory}/generated-sources</output>
+							<configOptions>
+								<apiPackage>com.hellena.predict.api</apiPackage>
+								<basePackage>com.hellena.predict</basePackage>
+								<gradleBuildFile>false</gradleBuildFile>
+								<modelPackage>com.hellena.predict.api.model</modelPackage>
+								<serializableModel>true</serializableModel>
+								<serviceInterface>true</serviceInterface>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
