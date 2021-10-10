@@ -62,7 +62,28 @@
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+
 		<plugins>
+			<!-- add generated sources from open api code generator -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/openapi</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -131,7 +152,6 @@
 							<generateSupportingFiles>false</generateSupportingFiles>
 							<enablePostProcessFile>true</enablePostProcessFile>
 							<generateApiTests>false</generateApiTests>
-							<output>${project.build.directory}/generated-sources</output>
 							<configOptions>
 								<apiPackage>com.hellena.predict.api</apiPackage>
 								<basePackage>com.hellena.predict</basePackage>
