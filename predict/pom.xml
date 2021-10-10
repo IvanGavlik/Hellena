@@ -116,7 +116,7 @@
 				<configuration>
 					<appName>mysterious-dusk-84277</appName>
 					<processTypes>
-						<web>java $JAVA_OPTS -cp target/classes:target/dependency/* com.hellena.predict.HellenaApplicationKt</web>
+						<web>java $JAVA_OPTS -Dserver.port=$PORT -cp target/classes:target/dependency/* com.hellena.predict.HellenaApplicationKt</web>
 					</processTypes>
 				</configuration>
 			</plugin>
