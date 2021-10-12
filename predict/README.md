@@ -36,6 +36,15 @@ more info: https://flywaydb.org/documentation/usage/maven/migrate
 also
 https://flywaydb.org/documentation/usage/maven/info
 
+### Data Access
+
+For DB data access Spring Data JDBC is used.
+
+Configuration of data source is done at src/main/resources/application.properties
+
+Use data class to map table
+Use standard Spring approach when creating repos
+More info [here](https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#jdbc.repositories)
 
 ## Deploy
 
@@ -50,3 +59,6 @@ Configured for Heroku platform with Maven plugin (heroku-maven-plugin)
 -> replace flyway plugin with out-of-the-box integration with Flyway
 https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization.migration-tool.flyway
 https://flywaydb.org/documentation/usage/plugins/springboot
+
+-> Auditing (created by and created day)
+https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#auditing
