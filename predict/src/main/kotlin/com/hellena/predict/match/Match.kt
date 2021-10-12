@@ -15,14 +15,20 @@ data class Match(@Id val id: Long,
                  val ood: Odd,
                  @Column("match_day")
                  val matchDay: LocalDate,
-                 val created: LocalDateTime) {
+                 val created: LocalDate) {
 }
 
-data class Odd(val tip_1: Double,
+data class Odd(@Column("tip_1")
+               val tip_1: Double,
+               @Column("tip_x")
                val tip_X: Double,
+               @Column("tip_2")
                val tip_2: Double,
+               @Column("tip_1x")
                val tip_1X: Double,
+               @Column("tip_x2")
                val tip_X2: Double,
+               @Column("tip_12")
                val tip_12: Double) {}
 
 @Repository
