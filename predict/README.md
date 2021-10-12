@@ -30,9 +30,12 @@ PostgreSQL
 
 flywaydb with Maven plugin (flyway-maven-plugin)
 
+mvn flyway:migrate to start migration
+
 more info: https://flywaydb.org/documentation/usage/maven/migrate
 also
 https://flywaydb.org/documentation/usage/maven/info
+
 
 ## Deploy
 
@@ -41,3 +44,9 @@ Configured for Heroku platform with Maven plugin (heroku-maven-plugin)
 ### Steps
 * heroku login
 * mvn clean heroku:deploy
+
+## TODO
+
+-> replace flyway plugin with out-of-the-box integration with Flyway
+https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization.migration-tool.flyway
+https://flywaydb.org/documentation/usage/plugins/springboot
