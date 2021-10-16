@@ -6,7 +6,6 @@ import org.springframework.data.relational.core.mapping.Embedded
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 data class Match(@Id val id: Long,
                  val home: String,
@@ -33,5 +32,5 @@ data class Odd(@Column("tip_1")
 
 @Repository
 interface MatchRepository: CrudRepository<Match, Long> {
-
+    override fun findAll(): List<Match>
 }
