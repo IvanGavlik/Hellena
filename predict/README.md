@@ -62,3 +62,7 @@ https://flywaydb.org/documentation/usage/plugins/springboot
 
 -> Auditing (created by and created day)
 https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#auditing
+
+-> maven configuration properties
+    like java compiler version
+    like java sdk version
