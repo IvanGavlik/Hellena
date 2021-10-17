@@ -66,3 +66,16 @@ https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#auditing
 -> maven configuration properties
     like java compiler version
     like java sdk version
+
+-> software requirements (see: https://mixmastamyk.bitbucket.io/pro_soft_dev/sdlc_2_req.html)
+
+-> design (see: https://mixmastamyk.bitbucket.io/pro_soft_dev/sdlc_3_des.html)
+
+
+-> quality (https://mixmastamyk.bitbucket.io/pro_soft_dev/sdlc_5_qa.html)
+
+-> also https://mixmastamyk.bitbucket.io/pro_soft_dev/challenges.html
+
+-> sonar qube: https://stackoverflow.com/questions/56805948/how-to-deploy-sonarqube-server-on-heroku-dyno
+    add guide
+    add automatic start of the sonar server

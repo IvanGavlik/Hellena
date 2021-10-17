@@ -14,7 +14,7 @@
 	<name>hellena</name>
 	<description>Application for predicting the results of football matches.</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 		<kotlin.version>1.5.31</kotlin.version>
 	</properties>
 
@@ -68,6 +68,23 @@
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 
 		<plugins>
+
+			<!-- sonar qube -->
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.7.0.1746</version>
+				<executions>
+					<execution>
+						<id>sonar-verify</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sonar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- add generated sources from open api code generator -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
