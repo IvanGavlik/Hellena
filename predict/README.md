@@ -50,6 +50,9 @@ More info [here](https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/ht
 
 Configured for Heroku platform with Maven plugin (heroku-maven-plugin)
 
+Runs on java 11 (specified in system.properties file) more info [here](https://devcenter.heroku.com/articles/customizing-the-jdk#specify-a-jdk-version)
+
+
 ### Steps
 * heroku login
 * mvn clean heroku:deploy
@@ -66,16 +69,20 @@ https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#auditing
 -> maven configuration properties
     like java compiler version
     like java sdk version
+    profiles ...
 
 -> software requirements (see: https://mixmastamyk.bitbucket.io/pro_soft_dev/sdlc_2_req.html)
 
 -> design (see: https://mixmastamyk.bitbucket.io/pro_soft_dev/sdlc_3_des.html)
 
-
 -> quality (https://mixmastamyk.bitbucket.io/pro_soft_dev/sdlc_5_qa.html)
+    -> sonar
+    -> explore other tools (pmd, checkstyle ... Halstead Complexity Measures, Weighted Micro Function Points, and Cyclomatic Complexity.)
 
 -> also https://mixmastamyk.bitbucket.io/pro_soft_dev/challenges.html
 
 -> sonar qube: https://stackoverflow.com/questions/56805948/how-to-deploy-sonarqube-server-on-heroku-dyno
     add guide
     add automatic start of the sonar server
+    add sonar guard and set sonar configuration
+    fix on heroku build sonar qube is not executed
