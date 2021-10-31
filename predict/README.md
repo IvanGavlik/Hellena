@@ -86,3 +86,12 @@ https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#auditing
     add automatic start of the sonar server
     add sonar guard and set sonar configuration
     fix on heroku build sonar qube is not executed
+
+-> for selenium on heroku
+    https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-chromedrive
+    then
+       https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app
+       how to -> https://www.andressevilla.com/running-chromedriver-with-python-selenium-on-heroku/
+    else
+        https://devcenter.heroku.com/articles/container-registry-and-runtime
+
