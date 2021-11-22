@@ -1,20 +1,27 @@
 package com.hellena.predict.item.category
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
 import org.springframework.data.repository.CrudRepository
+import javax.persistence.*
 
 
-
-@Table("category")
+@Entity
+@Table(name = "category")
 data class Category (
-    @Id val id: Long,
-    @Column val name: String,
-    @Column val description: String,
-    @Column("sub_category") val subCategory: Long?, // TODO one to one
-    ) {
-}
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    val id: Long,
+
+    @Column(name = "name")
+    val name: String,
+
+    @Column(name = "description")
+    val description: String,
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="sub_category")
+    val subCategory: Category? = null,
+    )
 
 interface CategoryRepository: CrudRepository<Category, Long> {
     override fun findAll(): List<Category>
