@@ -38,7 +38,7 @@ https://flywaydb.org/documentation/usage/maven/info
 
 ### Data Access
 
-For DB data access Spring Data JDBC is used.
+For DB data access Spring Data JPA is used.
 
 Configuration of data source is done at src/main/resources/application.properties
 
@@ -58,6 +58,7 @@ Runs on java 11 (specified in system.properties file) more info [here](https://d
 * mvn clean heroku:deploy
 
 ## TODO
+-> set constraint on DB (flyway)
 
 -> replace flyway plugin with out-of-the-box integration with Flyway
 https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization.migration-tool.flyway
