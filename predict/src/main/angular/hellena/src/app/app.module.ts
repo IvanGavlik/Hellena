@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {NavigationModule} from './navigation/navigation.module';
-import {HeaderComponent} from "./header/header/header.component";
 import {HeaderModule} from "./header/header.module";
+import {FooterModule} from "./footer/footer.module";
 
 @NgModule({
   declarations: [
@@ -14,6 +14,7 @@ import {HeaderModule} from "./header/header.module";
   imports: [
     NavigationModule,
     HeaderModule,
+    FooterModule,
     BrowserModule,
     AppRoutingModule
   ],
