@@ -52,10 +52,21 @@ Configured for Heroku platform with Maven plugin (heroku-maven-plugin)
 
 Runs on java 11 (specified in system.properties file) more info [here](https://devcenter.heroku.com/articles/customizing-the-jdk#specify-a-jdk-version)
 
-
 ### Steps
 * heroku login
 * mvn clean heroku:deploy
+
+## FE
+
+for fronted is used angular + boostrap
+to start only FE navigate to src/main/angular/hellena ng serve -o
+
+content of dist folder is in src/main/resources/static
+
+to start FE and BE
+* src/main/angular/hellena ng build
+* run BE project (mvn or InteliJ)
+
 
 ## TODO
 -> set constraint on DB (flyway)
@@ -96,3 +107,8 @@ https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#auditing
     else
         https://devcenter.heroku.com/articles/container-registry-and-runtime
 
+-> start angular and BE in the same time (also possibility to start them separately maybe docker)
+
+-> profiles local, dev, test, production
+
+-> e2e tests
