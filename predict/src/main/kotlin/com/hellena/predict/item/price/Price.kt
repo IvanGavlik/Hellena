@@ -14,7 +14,10 @@ data class Price(
     val id: Long,
 
     @Column(name = "price", nullable = false)
-    val price: BigDecimal,
+    val originalPrice: BigDecimal,
+
+    @Column(name = "action_price", nullable = false)
+    val actionPrice: BigDecimal,
 
     @Column(name = "active_from", nullable = false)
     val activeFrom: LocalDate,
