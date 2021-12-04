@@ -9,9 +9,9 @@ import java.math.BigDecimal
 import java.util.stream.Collectors
 
 @Service
-class MatchApiServiceImpl(val matchRepository: MatchRepository): MatchApiService {
+class MatchApiServiceImpl(val matchRepository: MatchRepository) {
 
-    override fun getUsers(): List<MatchDto> {
+    fun getUsers(): List<MatchDto> {
         return this.matchRepository.findAll().stream()
             .map { toMatchDTO(it) }
             .collect(Collectors.toList())
