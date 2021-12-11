@@ -1,21 +1,22 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {ItemCardDto} from "./item-card/item-card-dto";
-import {Observable, of} from "rxjs";
-import { environment } from "../../environments/environment";
+import {Inject, Injectable} from '@angular/core';
+import {CrudService} from "../crud/crud.service";
+import {CrudConfiguration} from "../crud/crud-configuration";
+import {ItemConfiguration} from "./item-configuration";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemService {
+export class ItemService extends CrudService {
 
-  constructor(private http: HttpClient) { }
-
-  getAll(): Observable<ItemCardDto[]> {
-    const base = environment.host + environment.version1;
-    const endpoint = base + '/item/all';
-    return this.http.get<ItemCardDto[]>(endpoint, {
-      responseType: 'json'
-    })
+  constructor(protected configuration: ItemConfiguration) {
+    super(configuration);
   }
+
+  /*  getAll(): Observable<ItemCardDto[]> {
+      const base = environment.host + environment.version1;
+      const endpoint = base + '/item/all';
+      return this.http.get<ItemCardDto[]>(endpoint, {
+        responseType: 'json'
+      })
+    }*/
 }
