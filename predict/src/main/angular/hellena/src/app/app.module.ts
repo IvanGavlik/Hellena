@@ -7,19 +7,21 @@ import {NavigationModule} from './navigation/navigation.module';
 import {HeaderModule} from "./header/header.module";
 import {FooterModule} from "./footer/footer.module";
 import {ItemModule} from "./item/item.module";
+import {ItemCategoryModule} from "./item-category/item-category.module";
 
 @NgModule({
   declarations: [
     AppComponent
   ],
-  imports: [
-    NavigationModule,
-    HeaderModule,
-    FooterModule,
-    BrowserModule,
-    AppRoutingModule,
-    ItemModule
-  ],
+    imports: [
+        NavigationModule,
+        HeaderModule,
+        FooterModule,
+        BrowserModule,
+        AppRoutingModule,
+        ItemModule,
+        ItemCategoryModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

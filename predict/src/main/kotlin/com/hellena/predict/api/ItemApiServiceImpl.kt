@@ -1,5 +1,6 @@
 package com.hellena.predict.api
 
+import com.hellena.predict.api.model.CategoryDto
 import com.hellena.predict.api.model.ItemDto
 import com.hellena.predict.item.service.ItemService
 import org.springframework.http.HttpHeaders
@@ -13,8 +14,14 @@ class ItemApiServiceImpl(val itemService: ItemService): ItemApiDelegate {
 
     override fun getItems(): ResponseEntity<List<ItemDto>> {
         val headers = HttpHeaders()
-        headers.accessControlAllowOrigin = "*";
+        headers.accessControlAllowOrigin = "*"
         return ResponseEntity(itemService.getItems(), headers, HttpStatus.OK)
+    }
+
+    override fun getCategories(): ResponseEntity<List<CategoryDto>> {
+        val headers = HttpHeaders()
+        headers.accessControlAllowOrigin = "*"
+        return ResponseEntity(itemService.getCategories(), headers, HttpStatus.OK)
     }
 
 }

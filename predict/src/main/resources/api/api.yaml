@@ -22,40 +22,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/itemDto'
+  /item/category/all:
+    get:
+      summary: Return list of item's categories
+      operationId: getCategories
+      responses:
+        '200':
+          description: A JSON arry of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/categoryDto'
 components:
   schemas:
-    matchDto:
-      type: object
-      properties:
-        home:
-          type: string
-        guest:
-          type: string
-        oodDto:
-          type: object
-          $ref: '#/components/schemas/oodDto'
-        matchDay:
-          type: string
-        created:
-          type: string
-    oodDto:
-      type: object
-      properties:
-        tip_1:
-          type: number
-        tip_X:
-          type: number
-        tip_2:
-          type: number
-        tip_1X:
-          type: number
-        tip_X2:
-          type: number
-        tip_12:
-          type: number
     itemDto:
       type: object
       properties:
+        id:
+          type: string
         name:
           type: string
         storeName:
@@ -64,3 +50,12 @@ components:
           type: number
         actionPrice:
           type: number
+    categoryDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
