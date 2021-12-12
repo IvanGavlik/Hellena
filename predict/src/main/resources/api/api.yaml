@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Hellena API
-  description: Application for predicting the results of football matches.
+  description: Service for retrieval disounts info from local stores
   version: 0.0.1
 servers:
   - url: https://mysterious-dusk-84277.herokuapp.com/v1
@@ -9,19 +9,6 @@ servers:
 tags:
   - name: "init"
 paths:
-  /match/list:
-    get:
-      summary: Returns a list of matches.
-      operationId: getUsers
-      responses:
-        '200':
-          description: A JSON array of football matches
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/matchDto'
   /item/all:
     get:
       summary: Return a list of items
