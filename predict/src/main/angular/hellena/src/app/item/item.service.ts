@@ -1,15 +1,15 @@
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {CrudService} from "../crud/crud.service";
-import {CrudConfiguration} from "../crud/crud-configuration";
 import {ItemConfiguration} from "./item-configuration";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService extends CrudService {
 
-  constructor(protected configuration: ItemConfiguration) {
-    super(configuration);
+  constructor(private configuration: ItemConfiguration, private httpClient: HttpClient) {
+    super(configuration, httpClient);
   }
 
   /*  getAll(): Observable<ItemCardDto[]> {

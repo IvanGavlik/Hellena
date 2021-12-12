@@ -2,10 +2,12 @@ import {Crud} from "./crud";
 import {Observable, of} from "rxjs";
 import {Entity} from "./entity";
 import {CrudConfiguration} from "./crud-configuration";
+import {environment} from "../../environments/environment";
+import {HttpClient} from "@angular/common/http";
 
 export abstract class CrudService implements Crud {
 
-  constructor(private crudConfiguration: CrudConfiguration) {}
+  constructor(private crudConfiguration: CrudConfiguration, private http: HttpClient) {}
 
   count(): Observable<Number> {
     return of<Number>();
@@ -26,8 +28,11 @@ export abstract class CrudService implements Crud {
   }
 
   findAll(): Observable<Entity[]> {
-    console.log('findAll ', this.crudConfiguration.endpoint);
-    return of();
+    // TODO what about version
+    const endpoint = environment.host + this.crudConfiguration.findAllEndpoint;
+    return this.http.get<Entity[]>(endpoint, {
+      responseType: 'json'
+    })
   }
 
   findAllById(id: string[]): Observable<Entity[]> {
