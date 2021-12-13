@@ -13,15 +13,15 @@ import {ItemCategoryModule} from "./item-category/item-category.module";
   declarations: [
     AppComponent
   ],
-    imports: [
-        NavigationModule,
-        HeaderModule,
-        FooterModule,
-        BrowserModule,
-        AppRoutingModule,
-        ItemModule,
-        ItemCategoryModule
-    ],
+  imports: [
+    NavigationModule,
+    HeaderModule,
+    FooterModule,
+    BrowserModule,
+    AppRoutingModule,
+    ItemModule,
+    ItemCategoryModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

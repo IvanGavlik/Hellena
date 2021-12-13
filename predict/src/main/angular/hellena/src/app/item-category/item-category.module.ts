@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ItemCategoryContainerComponent } from './item-category-container/item-category-container.component';
+import {UiModule} from "../ui/ui.module";
 
 
 
@@ -9,7 +10,8 @@ import { ItemCategoryContainerComponent } from './item-category-container/item-c
     ItemCategoryContainerComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    UiModule
   ],
   exports: [
     ItemCategoryContainerComponent
