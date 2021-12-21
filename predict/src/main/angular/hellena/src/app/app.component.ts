@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Helena';
-  subTitle = 'Pronađi prozvode na akciji';
+  subTitle = 'Pronađi proizvode na akciji';
 }
