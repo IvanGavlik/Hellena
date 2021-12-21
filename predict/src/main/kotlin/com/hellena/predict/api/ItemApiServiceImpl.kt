@@ -19,14 +19,7 @@ class ItemApiServiceImpl(val itemService: ItemService): ItemApiDelegate {
         return ResponseEntity(itemService.getItems(), headers, HttpStatus.OK)
     }
 
-     fun getCategories(): ResponseEntity<List<CategoryDto>> {
-        val headers = HttpHeaders()
-        headers.accessControlAllowOrigin = "*"
-        return ResponseEntity(itemService.getCategories(), headers, HttpStatus.OK)
-    }
-
-    override fun getCategories(test: kotlin.Any): ResponseEntity<List<CategoryDto>> {
-        println("decode " + String(Base64.getDecoder().decode(test.toString())));
+    override fun getCategories(): ResponseEntity<List<CategoryDto>> {
         val headers = HttpHeaders()
         headers.accessControlAllowOrigin = "*"
         return ResponseEntity(itemService.getCategories(), headers, HttpStatus.OK)
