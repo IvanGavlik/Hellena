@@ -112,3 +112,5 @@ https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#auditing
 -> profiles local, dev, test, production
 
 -> e2e tests
+
+-> pathEncodingProblem
