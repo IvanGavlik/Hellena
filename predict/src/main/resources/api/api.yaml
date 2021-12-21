@@ -4,13 +4,19 @@ info:
   description: Service for retrieval disounts info from local stores
   version: 0.0.1
 servers:
+  - url: https://localhost:8080/v1
+    description: Local server
   - url: https://mysterious-dusk-84277.herokuapp.com/v1
     description: Main (production) server
 tags:
   - name: "init"
 paths:
   /item/all:
+    summary: Item endpoint
+    description: Place that holds all item operations
     get:
+      tags:
+        - get
       summary: Return a list of items
       operationId: getItems
       responses:
@@ -22,10 +28,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/itemDto'
-  /item/category/all:
+  /item/category/all/:
     get:
+      # todo https://www.baeldung.com/openapi-json-query-parameters
       summary: Return list of item's categories
       operationId: getCategories
+      parameters:
+        - name: test
+          in: query
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                format: byte
+                type: object
+                properties:
+                  type:
+                    type: string
+                  color:
+                    type: string
       responses:
         '200':
           description: A JSON arry of categories
