@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component } from '@angular/core';
+import {CardContainer} from "./ui/card-container/card-container";
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,12 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Helena';
   subTitle = 'Pronađi proizvode na akciji';
+
+  dailyDeal: CardContainer = {
+    title: 'Najpovoljnije danas',
+    footer: 'Pogledaj sve'
+  }
+
+  constructor() {
+  }
 }

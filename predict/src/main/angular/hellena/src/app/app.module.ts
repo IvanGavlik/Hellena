@@ -8,20 +8,22 @@ import {HeaderModule} from "./header/header.module";
 import {FooterModule} from "./footer/footer.module";
 import {ItemModule} from "./item/item.module";
 import {ItemCategoryModule} from "./item-category/item-category.module";
+import {UiModule} from "./ui/ui.module";
 
 @NgModule({
   declarations: [
     AppComponent
   ],
-  imports: [
-    NavigationModule,
-    HeaderModule,
-    FooterModule,
-    BrowserModule,
-    AppRoutingModule,
-    ItemModule,
-    ItemCategoryModule
-  ],
+    imports: [
+        NavigationModule,
+        HeaderModule,
+        FooterModule,
+        BrowserModule,
+        AppRoutingModule,
+        ItemModule,
+        ItemCategoryModule,
+        UiModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
