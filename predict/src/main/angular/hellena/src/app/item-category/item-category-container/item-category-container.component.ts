@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ItemCategoryConfiguration} from "../item-category-configuration";
 import {ItemCategoryService} from "../item-category.service";
 import {Card} from "../../ui/card/card";
-import {map} from "rxjs/operators";
+import {map, take} from "rxjs/operators";
 import {Entity} from "../../crud/entity";
 import {Observable, of, Subscription} from "rxjs";
 
@@ -23,7 +23,8 @@ export class ItemCategoryContainerComponent implements OnInit {
   ngOnInit(): void {
      this.cards$ = this.service.findAll()
       .pipe(
-        map(entities => entities.map( el => this.toCard(el as ItemCategory)))
+        map(x => x.slice(0, 5)),
+        map(entities => entities.map( el => this.toCard(el as ItemCategory))),
       )
   }
 
