@@ -3,7 +3,9 @@ package com.hellena.predict.item
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.price.Price
 import com.hellena.predict.item.store.Store
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.repository.PagingAndSortingRepository
 import javax.persistence.*
 
 @Entity
@@ -37,6 +39,8 @@ data class Item(
     ) {
 }
 
-interface ItemRepository: CrudRepository<Item, Long> {
+interface ItemRepository: PagingAndSortingRepository<Item, Long> {
     override fun findAll(): List<Item>;
+
+    override fun findAll(pageable: Pageable): Page<Item>
 }

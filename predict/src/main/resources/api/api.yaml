@@ -28,6 +28,29 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/itemDto'
+  /item/search:
+    summary: Item search endpoint
+    description: Search items include paggination and sort support
+    get:
+      operationId: searchItems
+      parameters:
+        - name: query
+          in: query
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/searchItemDto'
+      responses:
+        '200':
+          description: A JSON array of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/itemDto'
   /item/category/all:
     get:
       summary: Return list of item's categories
@@ -43,6 +66,27 @@ paths:
                   $ref: '#/components/schemas/categoryDto'
 components:
   schemas:
+    sortDto:
+      type: object
+      properties:
+        name:
+          type: string
+        direction:
+          type: string
+          enum:
+            - asc
+            - desc
+    pageDto:
+      type: object
+      properties:
+        index:
+          type: number
+        size:
+          type: number
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/sortDto'
     itemDto:
       type: object
       properties:
@@ -56,6 +100,22 @@ components:
           type: number
         actionPrice:
           type: number
+    searchItemDto:
+      type: object
+      properties:
+        name:
+          type: string
+        categoryId:
+          type: number
+        cityId:
+          type: number
+        priceMIn:
+          type: number
+        priceMax:
+          type: number
+        page:
+          type: object
+          $ref: '#/components/schemas/pageDto'
     categoryDto:
       type: object
       properties:
