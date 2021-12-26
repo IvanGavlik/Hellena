@@ -10,11 +10,6 @@ export class AppComponent {
   title = 'Helena';
   subTitle = 'Pronađi proizvode na akciji';
 
-  dailyDeal: CardContainer = {
-    title: 'Najpovoljnije danas',
-    footer: 'Pogledaj sve'
-  }
-
   constructor() {
   }
 }

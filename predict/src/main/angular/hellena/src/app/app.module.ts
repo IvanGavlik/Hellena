@@ -6,9 +6,7 @@ import { AppComponent } from './app.component';
 import {NavigationModule} from './navigation/navigation.module';
 import {HeaderModule} from "./header/header.module";
 import {FooterModule} from "./footer/footer.module";
-import {ItemModule} from "./item/item.module";
-import {ItemCategoryModule} from "./item-category/item-category.module";
-import {UiModule} from "./ui/ui.module";
+import {FrontPageModule} from "./front-page/front-page.module";
 
 @NgModule({
   declarations: [
@@ -20,9 +18,6 @@ import {UiModule} from "./ui/ui.module";
         FooterModule,
         BrowserModule,
         AppRoutingModule,
-        ItemModule,
-        ItemCategoryModule,
-        UiModule
     ],
   providers: [],
   bootstrap: [AppComponent]
