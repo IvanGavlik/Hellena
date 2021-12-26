@@ -10,6 +10,5 @@ export class AppComponent {
   title = 'Helena';
   subTitle = 'Pronađi proizvode na akciji';
 
-  constructor() {
-  }
+  constructor() { }
 }
