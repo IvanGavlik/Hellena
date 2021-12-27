@@ -8,7 +8,6 @@ import {CardContainer} from "./ui/card-container/card-container";
 })
 export class AppComponent {
   title = 'Helena';
-  subTitle = 'Pronađi proizvode na akciji';
 
   constructor() { }
 }
