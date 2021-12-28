@@ -63,6 +63,10 @@ to start only FE navigate to src/main/angular/hellena ng serve -o
 
 content of dist folder is in src/main/resources/static
 
+build FE
+* for production ng build --configuration production
+* for development ng build --configuration development
+
 to start FE and BE
 * src/main/angular/hellena ng build
 * run BE project (mvn or InteliJ)
