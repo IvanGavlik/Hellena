@@ -13,7 +13,7 @@ data class Price(
     @Column(name = "id")
     val id: Long,
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     val originalPrice: BigDecimal,
 
     @Column(name = "action_price", nullable = false)
