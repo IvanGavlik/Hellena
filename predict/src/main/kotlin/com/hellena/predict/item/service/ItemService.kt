@@ -4,15 +4,16 @@ import com.hellena.predict.api.model.CategoryDto
 import com.hellena.predict.api.model.ItemDto
 import com.hellena.predict.item.Item
 import com.hellena.predict.item.ItemRepository
+import com.hellena.predict.item.ItemSearch
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.category.CategoryRepository
-import com.hellena.predict.search.Search
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 
 interface ItemService {
     fun getItems(): List<ItemDto>;
-    fun getItems(search: Search): List<ItemDto>;
+    fun getItems(search: ItemSearch): List<ItemDto>;
     fun getCategories(): List<CategoryDto>;
 }
 
@@ -33,10 +34,11 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
             .collect(Collectors.toList());
     }
 
-    override fun getItems(search: Search): List<ItemDto> {
-        TODO("Not yet implemented")
-//      TODO Integrate QUERY DSL
-//        return itemRepository.findAll();
+    override fun getItems(search: ItemSearch): List<ItemDto> {
+        // TODO Integrate QUERY DSL
+       // TODO sort
+        val pageReq = PageRequest.of(search.page.getIndex().toInt(), search.page.getSize().toInt());
+        return itemRepository.findAll(pageReq).content.map { toItemDTO(it) };
     }
 
     private fun toItemDTO(it: Item): ItemDto {
