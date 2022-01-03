@@ -9,6 +9,6 @@ data class ItemSearch (
     val cityId: Long?,
     val priceMIn: BigDecimal?,
     val priceMax: BigDecimal?,
-    val page: Page
+    val page: Page?
 ) {
 }

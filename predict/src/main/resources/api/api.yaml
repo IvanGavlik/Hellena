@@ -31,17 +31,14 @@ paths:
   /item/search:
     summary: Item search endpoint
     description: Search items include paggination and sort support
-    get:
+    post:
       operationId: searchItems
-      parameters:
-        - name: query
-          in: query
-          required: true
-          content:
-            application/json:
-              schema:
-                type: object
-                $ref: '#/components/schemas/searchItemDto'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/searchItemDto'
       responses:
         '200':
           description: A JSON array of items

@@ -31,6 +31,16 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-core</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-kotlin</artifactId>
 		</dependency>
@@ -112,6 +122,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 			<plugin>
 				<groupId>org.jetbrains.kotlin</groupId>
 				<artifactId>kotlin-maven-plugin</artifactId>
@@ -124,6 +135,20 @@
 						<!-- Kotlin with JPA: default constructor hell -->
 						<plugin>jpa</plugin>
 					</compilerPlugins>
+					<!-- querydsl  -->
+					<annotationProcessorPaths>
+						<annotationProcessorPath>
+							<groupId>com.querydsl</groupId>
+							<artifactId>querydsl-kotlin-codegen</artifactId>
+							<version>5.0.0</version>
+						</annotationProcessorPath>
+						<annotationProcessorPath>
+							<groupId>com.querydsl</groupId>
+							<artifactId>querydsl-apt</artifactId>
+							<version>5.0.0</version>
+							<classifier>jpa</classifier>
+						</annotationProcessorPath>
+					</annotationProcessorPaths>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -137,6 +162,34 @@
 						<version>${kotlin.version}</version>
 					</dependency>
 				</dependencies>
+				<executions>
+					<execution>
+						<id>kapt</id>
+						<goals>
+							<goal>kapt</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>test-kapt</id>
+						<goals>
+							<goal>test-kapt</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>test-compile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- Heroku build plugin -->

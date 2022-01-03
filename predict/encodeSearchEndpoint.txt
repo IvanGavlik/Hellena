@@ -1,0 +1,29 @@
+ /item/search:
+    summary: Item search endpoint
+    description: Search items include paggination and sort support
+    get:
+      operationId: searchItems
+      parameters:
+        - name: query
+          in: query
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/searchItemDto'
+      responses:
+        '200':
+          description: A JSON array of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/itemDto'
+
+
+
+GET /tickets?params=%7B%22type%22%3A%22foo%22%2C%22color%22%3A%22green%22%7D
+input string in method
+from: https://www.baeldung.com/openapi-json-query-parameters
