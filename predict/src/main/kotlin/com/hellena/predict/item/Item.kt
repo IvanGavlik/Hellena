@@ -39,8 +39,25 @@ data class Item(
     ) {
 }
 
-interface ItemRepository: PagingAndSortingRepository<Item, Long> {
+interface SearchItemRepository {
+    fun search();
+}
+
+class SearchItemRepositoryImpl(
+    @PersistenceContext
+    val entityManager: EntityManager
+): SearchItemRepository {
+
+    override fun search() {
+        System.out.println(this.entityManager.isOpen);
+    }
+
+}
+
+interface ItemRepository: PagingAndSortingRepository<Item, Long>, SearchItemRepository {
     override fun findAll(): List<Item>;
 
     override fun findAll(pageable: Pageable): Page<Item>
 }
+
+

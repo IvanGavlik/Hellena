@@ -23,6 +23,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
                       ): ItemService {
 
     override fun getItems(): List<ItemDto> {
+        itemRepository.search();
         return itemRepository.findAll().stream()
             .map { toItemDTO(it) }
             .collect(Collectors.toList())
