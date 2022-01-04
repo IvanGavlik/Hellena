@@ -48,6 +48,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/itemDto'
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                default: '*'
   /item/category/all:
     get:
       summary: Return list of item's categories
