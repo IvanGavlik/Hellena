@@ -118,3 +118,6 @@ https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#auditing
 -> e2e tests
 
 -> pathEncodingProblem
+
+TODO
+-> https://www.slant.co/topics/2579/~ocr-libraries
