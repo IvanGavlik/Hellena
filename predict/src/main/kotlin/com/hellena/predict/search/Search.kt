@@ -5,11 +5,11 @@ interface Search {
 }
 
 interface Page {
-    fun getIndex(): Integer;
+    fun getIndex(): Long;
 
-    fun getSize(): Integer;
+    fun getSize(): Long;
 
-    fun getSort(): List<Sort>;
+    fun getSort(): List<Sort>?;
 }
 
 interface Sort {

@@ -50,14 +50,25 @@ class SearchItemRepositoryImpl(
     val entityManager: EntityManager
 ): SearchItemRepository {
 
+    private val query = JPAQueryFactory(this.entityManager)
+
     override fun search(search: ItemSearch): MutableList<Item> {
-        val query = JPAQueryFactory(this.entityManager); //TODO move to instance filed
         val item = QItem.item;
 
-        // TODO sort and pagination
-        return query.selectFrom(item)
-            .where( buildPredicate(search, item) )
-            .fetch();
+        // TODO order by
+        val predicate = buildPredicate(search, item);
+        if (predicate.hasValue()) {
+            return query.selectFrom(item)
+                .where(predicate)
+                .offset(search.page.getIndex())
+                .limit(search.page.getSize())
+                .fetch()
+        } else {
+            return query.selectFrom(item)
+                .offset(search.page.getIndex())
+                .limit(search.page.getSize())
+                .fetch()
+        }
     }
 
     private fun buildPredicate(search: ItemSearch, item: QItem): BooleanBuilder {
@@ -67,11 +78,14 @@ class SearchItemRepositoryImpl(
         if (search.name != null) {
             queryBuilder.and( item.name.contains(search.name) )
         }
-        if (search.categoryId != null) {
-            queryBuilder.and( item.category.id.eq(search.categoryId) )
+        if (search.categoryIds.isNotEmpty()) {
+            queryBuilder.and( item.category.id.`in`(search.categoryIds) )
         }
-        if (search.cityId != null) {
-            queryBuilder.and( item.store.location.id.eq(search.cityId))
+        if (search.cityIds.isNotEmpty()) {
+            queryBuilder.and( item.store.location.id.`in` (search.cityIds))
+        }
+        if(search.storeIds.isNotEmpty()) {
+            queryBuilder.and( item.store.id.`in`(search.storeIds) )
         }
         if (search.priceMIn != null && search.priceMIn.toDouble() > 0) {
             queryBuilder.and( item.price.actionPrice.goe(search.priceMIn))

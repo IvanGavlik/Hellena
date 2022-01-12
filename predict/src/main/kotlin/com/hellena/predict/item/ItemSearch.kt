@@ -5,10 +5,11 @@ import java.math.BigDecimal
 
 data class ItemSearch (
     val name: String?,
-    val categoryId: Long?,
-    val cityId: Long?,
+    val categoryIds: List<Long>,
+    val cityIds: List<Long>,
+    val storeIds: List<Long>,
     val priceMIn: BigDecimal?,
     val priceMax: BigDecimal?,
-    val page: Page?
+    val page: Page
 ) {
 }

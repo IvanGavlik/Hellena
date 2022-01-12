@@ -70,21 +70,30 @@ components:
   schemas:
     sortDto:
       type: object
+      required:
+        - name
+        - direction
       properties:
         name:
           type: string
         direction:
           type: string
           enum:
-            - asc
-            - desc
+            - ASC
+            - DESC
     pageDto:
       type: object
+      required:
+        - index
+        - size
+        - sort
       properties:
         index:
-          type: number
+          type: integer
+          format: int64
         size:
-          type: number
+          type: integer
+          format: int64
         sort:
           type: array
           items:
@@ -104,13 +113,29 @@ components:
           type: number
     searchItemDto:
       type: object
+      required:
+        - categoryIds
+        - cityIds
+        - storeIds
+        - page
       properties:
         name:
           type: string
-        categoryId:
-          type: number
-        cityId:
-          type: number
+        categoryIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        cityIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        storeIds:
+          type: array
+          items:
+            type: integer
+            format: int64
         priceMIn:
           type: number
         priceMax:
