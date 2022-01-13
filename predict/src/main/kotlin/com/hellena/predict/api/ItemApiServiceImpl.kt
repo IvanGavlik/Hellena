@@ -7,11 +7,9 @@ import com.hellena.predict.search.Page
 import com.hellena.predict.search.Sort
 import com.hellena.predict.search.SortDirection
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.CrossOrigin
 import java.util.stream.Collectors
 
 
@@ -26,17 +24,9 @@ class ItemApiServiceImpl(val itemService: ItemService): ItemApiDelegate {
     }
 
     override fun getCategories(): ResponseEntity<List<CategoryDto>> {
-        val headers = HttpHeaders()
-        headers.accessControlAllowOrigin = "*"
-        headers.accessControlAllowMethods = listOf(HttpMethod.POST, HttpMethod.GET, HttpMethod.OPTIONS)
-        headers.accessControlAllowCredentials = true
-        headers.accessControlAllowHeaders = listOf("Content-Type", "Depth, User-Agent", "X-File-Size", "X-Requested-With", "If-Modified-Since",
-            "X-File-Name", "Cache-Control");
-        return ResponseEntity(itemService.getCategories(), headers, HttpStatus.OK)
+        return ResponseEntity(itemService.getCategories(), HttpStatus.OK)
     }
 
-    // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-    @CrossOrigin(origins = ["http://localhost:8080/v1/item/search"])
     override fun searchItems(searchItemDto: SearchItemDto?): ResponseEntity<List<ItemDto>> {
 
         val search = ItemSearch(
