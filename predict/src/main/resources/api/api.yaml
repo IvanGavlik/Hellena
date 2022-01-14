@@ -66,6 +66,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/categoryDto'
+  /item/city/all:
+    get:
+      summary: Return list of store cityes
+      operationId: getCities
+      responses:
+        '200':
+          description: A JSON arry of cityes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/cityDto'
+  /item/store/all:
+    get:
+      summary: Return list of stores names
+      operationId: getStores
+      responses:
+        '200':
+          description: A JSON arry of sotre
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/storeDto'
 components:
   schemas:
     sortDto:
@@ -151,4 +177,18 @@ components:
         name:
           type: string
         description:
+          type: string
+    cityDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    storeDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
           type: string
