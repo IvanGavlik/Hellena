@@ -9,6 +9,7 @@ import com.hellena.predict.item.ItemRepository
 import com.hellena.predict.item.ItemSearch
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.category.CategoryRepository
+import com.hellena.predict.item.feature.FeatureFactory
 import com.hellena.predict.item.location.Location
 import com.hellena.predict.item.location.LocationRepository
 import com.hellena.predict.item.store.Store
@@ -29,6 +30,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
                       val categoryRepository: CategoryRepository,
                       val locationRepository: LocationRepository,
                       val storeRepository: StoreRepository,
+                      val featureFactory: FeatureFactory
                       ): ItemService {
 
     override fun getItems(): List<ItemDto> {
@@ -56,6 +58,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
     }
 
     override fun getItems(search: ItemSearch): List<ItemDto> {
+        this.featureFactory.getFeature("test").fetch();
         return itemRepository.search(search).stream()
             .map { toItemDTO(it) }
             .collect(Collectors.toList())
