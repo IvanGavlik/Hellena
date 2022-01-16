@@ -88,8 +88,8 @@ class SearchItemRepositoryImpl(
         }
 
         var today: LocalDate = LocalDate.now();
-        queryBuilder.and(item.price.activeFrom.goe(today))
-        queryBuilder.and(item.price.activeTo.loe(today));
+        queryBuilder.and(item.price.activeFrom.loe(today))
+        queryBuilder.and(item.price.activeTo.goe(today));
 
         return queryBuilder;
     }
