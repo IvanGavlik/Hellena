@@ -2,6 +2,7 @@ package com.hellena.predict.api
 
 import com.hellena.predict.api.model.*
 import com.hellena.predict.item.ItemSearch
+import com.hellena.predict.item.feature.ItemFeatureType
 import com.hellena.predict.item.service.ItemService
 import com.hellena.predict.search.Page
 import com.hellena.predict.search.Sort
@@ -46,7 +47,9 @@ class ItemApiServiceImpl(val itemService: ItemService): ItemApiDelegate {
             priceMIn = searchItemDto?.priceMIn,
             page = toPage(searchItemDto.page)
         )
-        return ResponseEntity(itemService.getItems(search), HttpStatus.OK);
+        val featureInput: String? = searchItemDto?.feature?.name;
+        val feature: ItemFeatureType? = if ( featureInput != null)  ItemFeatureType.valueOf(featureInput) else null;
+        return ResponseEntity(itemService.getItems(search, feature), HttpStatus.OK);
     }
 
     fun toPage(pageDto: PageDto): Page {

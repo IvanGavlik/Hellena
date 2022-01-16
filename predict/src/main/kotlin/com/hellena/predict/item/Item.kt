@@ -8,6 +8,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.PagingAndSortingRepository
+import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
@@ -55,20 +56,12 @@ class SearchItemRepositoryImpl(
     override fun search(search: ItemSearch): MutableList<Item> {
         val item = QItem.item;
 
-        // TODO order by
         val predicate = buildPredicate(search, item);
-        if (predicate.hasValue()) {
-            return query.selectFrom(item)
-                .where(predicate)
-                .offset(search.page.getIndex())
-                .limit(search.page.getSize())
-                .fetch()
-        } else {
-            return query.selectFrom(item)
-                .offset(search.page.getIndex())
-                .limit(search.page.getSize())
-                .fetch()
-        }
+        return query.selectFrom(item)
+            .where(predicate)
+            .offset(search.page.getIndex())
+            .limit(search.page.getSize())
+            .fetch()
     }
 
     private fun buildPredicate(search: ItemSearch, item: QItem): BooleanBuilder {
@@ -93,6 +86,10 @@ class SearchItemRepositoryImpl(
         if (search.priceMax != null && search.priceMax.toDouble() > 0) {
             queryBuilder.and( item.price.actionPrice.loe(search.priceMax))
         }
+
+        var today: LocalDate = LocalDate.now();
+        queryBuilder.and(item.price.activeFrom.goe(today))
+        queryBuilder.and(item.price.activeTo.loe(today));
 
         return queryBuilder;
     }
