@@ -47,7 +47,7 @@ class ItemApiServiceImpl(val itemService: ItemService): ItemApiDelegate {
             priceMIn = searchItemDto?.priceMIn,
             page = toPage(searchItemDto.page)
         )
-        val featureInput: String? = searchItemDto?.feature?.name;
+        val featureInput: String? = searchItemDto?.feature?.value;
         val feature: ItemFeatureType? = if ( featureInput != null)  ItemFeatureType.valueOf(featureInput) else null;
         return ResponseEntity(itemService.getItems(search, feature), HttpStatus.OK);
     }

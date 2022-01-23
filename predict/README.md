@@ -22,6 +22,12 @@ https://www.youtube.com/watch?v=YmQyzNF5iKg
 https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin
 https://openapi-generator.tech/docs/generators/kotlin-spring
 
+### API and Postman
+
+* Import into postman content of predict/src/main/resources/api more info [here](https://learning.postman.com/docs/integrations/available-integrations/working-with-openAPI/)
+* Create local environment. Params
+    * name: baseUrl value: http://localhost:8080/v1
+
 ## Database
 
 PostgreSQL
