@@ -2,6 +2,7 @@ package com.hellena.predict.item
 
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.price.Price
+import com.hellena.predict.item.store.QStore
 import com.hellena.predict.item.store.Store
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -79,10 +80,10 @@ class SearchItemRepositoryImpl(
             queryBuilder.and( item.category.id.`in`(search.categoryIds) )
         }
         if (search.cityIds.isNotEmpty()) {
-            queryBuilder.and( item.store.location.id.`in` (search.cityIds))
+//            queryBuilder.and( item.store..id.`in` (search.cityIds))
         }
         if(search.storeIds.isNotEmpty()) {
-            queryBuilder.and( item.store.id.`in`(search.storeIds) )
+//            queryBuilder.and( item.store contains(search.storeIds) )
         }
         if (search.priceMIn != null && search.priceMIn.toDouble() > 0) {
             queryBuilder.and( item.price.actionPrice.goe(search.priceMIn))

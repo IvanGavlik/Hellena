@@ -81,7 +81,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
 
     private fun toItemDTO(it: Item, storeName: String): ItemDto {
         val dto = ItemDto(
-            id = it.id.toString(),
+            id = it.id,
             name = it.name,
             storeName = storeName,
             orginalPrice = it.price.originalPrice,
@@ -92,7 +92,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
 
     private fun toCategoryDto(it: Category): CategoryDto {
         val dto = CategoryDto(
-            id = it.id.toString(),
+            id = it.id,
             name = it.name,
             description = it.description
         )
@@ -101,7 +101,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
 
     private fun toCityDto(it: Location): CityDto {
         val dto = CityDto(
-            id = it.id.toString(),
+            id = it.id,
             name = it.city
         );
         return dto;
@@ -109,7 +109,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
 
     private fun toStoreDto(it: Store): StoreDto {
         val dto = StoreDto(
-            id = it.id.toString(),
+            id = it.id,
             name = it.name,
         )
         return dto;
