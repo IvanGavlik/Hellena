@@ -32,9 +32,13 @@ data class Item(
     @JoinColumn(nullable = false)
     val category: Category,
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    val store: Store,
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "item_store",
+        joinColumns = [JoinColumn(name = "item_id", )],
+        inverseJoinColumns = [JoinColumn(name ="store_id", referencedColumnName = "id")]
+    )
+    val store: List<Store>,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)

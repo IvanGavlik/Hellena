@@ -17,7 +17,9 @@ import com.hellena.predict.item.location.LocationRepository
 import com.hellena.predict.item.store.Store
 import com.hellena.predict.item.store.StoreRepository
 import org.springframework.stereotype.Service
+import java.util.stream.Collector
 import java.util.stream.Collectors
+import java.util.stream.Stream
 
 interface ItemService {
     fun getItems(): List<ItemDto>;
@@ -37,7 +39,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
 
     override fun getItems(): List<ItemDto> {
         return itemRepository.findAll().stream()
-            .map { toItemDTO(it) }
+            .flatMap {  toItemDTOs(it) }
             .collect(Collectors.toList())
     }
 
@@ -63,20 +65,25 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
         val itemFeature: ItemFeature? =  this.featureFactory.getFeature(feature);
         if (itemFeature != null) {
             return itemFeature.fetch(search).stream()
-                .map { toItemDTO(it) }
+                .flatMap {  toItemDTOs(it) }
                 .collect(Collectors.toList());
         } else {
             return itemRepository.search(search).stream()
-                .map { toItemDTO(it) }
+                .flatMap { toItemDTOs(it) }
                 .collect(Collectors.toList())
         }
     }
 
-    private fun toItemDTO(it: Item): ItemDto {
+    private fun toItemDTOs(item: Item): Stream<ItemDto> {
+        return item.store.stream()
+            .map { toItemDTO(item, it.name) };
+    }
+
+    private fun toItemDTO(it: Item, storeName: String): ItemDto {
         val dto = ItemDto(
             id = it.id.toString(),
             name = it.name,
-            storeName = it.store.name,
+            storeName = storeName,
             orginalPrice = it.price.originalPrice,
             actionPrice = it.price.actionPrice,
         );
