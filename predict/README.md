@@ -127,3 +127,5 @@ https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#auditing
 
 TODO
 -> https://www.slant.co/topics/2579/~ocr-libraries
+-> store->locationid->must be uniqe, kako rješiti pitanje tipa Arena Centra (u kucni broj dodati info)
+-> query dsl conclusion :: https://kihats.medium.com/querying-with-querydsl-jpa-abd2e722dc19

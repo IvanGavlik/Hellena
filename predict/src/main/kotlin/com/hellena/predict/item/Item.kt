@@ -2,15 +2,14 @@ package com.hellena.predict.item
 
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.price.Price
-import com.hellena.predict.item.store.QStore
 import com.hellena.predict.item.store.Store
-import com.querydsl.core.BooleanBuilder
-import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.PagingAndSortingRepository
-import java.time.LocalDate
 import javax.persistence.*
+import javax.persistence.criteria.CriteriaBuilder
+import javax.persistence.criteria.CriteriaQuery
+import javax.persistence.criteria.Root
 
 @Entity
 @Table(name = "item")
@@ -56,34 +55,43 @@ class SearchItemRepositoryImpl(
     val entityManager: EntityManager
 ): SearchItemRepository {
 
-    private val query = JPAQueryFactory(this.entityManager)
+    override fun search(search: ItemSearch): List<Item> {
+        val builder: CriteriaBuilder = entityManager.criteriaBuilder
+        val query: CriteriaQuery<Item> = builder.createQuery(Item::class.java)
+        val root: Root<Item> = query.from(Item::class.java)
 
-    override fun search(search: ItemSearch): MutableList<Item> {
-        val item = QItem.item;
+        query.select(root)
+            .where(
+                builder.equal(root.get<String>("name"), "test"),
+            )
 
-        val predicate = buildPredicate(search, item);
-        return query.selectFrom(item)
-            .where(predicate)
-            .offset(search.page.getIndex())
-            .limit(search.page.getSize())
-            .fetch()
+        return entityManager.createQuery(query).resultList;
     }
 
-    private fun buildPredicate(search: ItemSearch, item: QItem): BooleanBuilder {
+    /**
 
-        val queryBuilder = BooleanBuilder();
+    val queryBuilder = BooleanBuilder();
 
+    var today: LocalDate = LocalDate.now();
+    queryBuilder.and(item.price.activeFrom.loe(today))
+    queryBuilder.and(item.price.activeTo.goe(today));
+
+    return queryBuilder;
+
+
+     */
+    private fun setUpPredicate(builder: CriteriaBuilder,root: Root<Item>, search: ItemSearch) {
         if (search.name != null) {
-            queryBuilder.and( item.name.contains(search.name) )
+            builder.and( builder.equal(root.get<String>("name"), search.name) )
         }
         if (search.categoryIds.isNotEmpty()) {
-            queryBuilder.and( item.category.id.`in`(search.categoryIds) )
+            root.get<Category>("category").`in`(search.categoryIds);
         }
-        if (search.cityIds.isNotEmpty()) {
-//            queryBuilder.and( item.store..id.`in` (search.cityIds))
+        if (search.cityName != null && search.cityName.isEmpty()) {
+            //            queryBuilder.and( item.store..id.`in` (search.cityIds))
         }
         if(search.storeIds.isNotEmpty()) {
-//            queryBuilder.and( item.store contains(search.storeIds) )
+            //            queryBuilder.and( item.store contains(search.storeIds) )
         }
         if (search.priceMIn != null && search.priceMIn.toDouble() > 0) {
             queryBuilder.and( item.price.actionPrice.goe(search.priceMIn))
@@ -92,13 +100,8 @@ class SearchItemRepositoryImpl(
             queryBuilder.and( item.price.actionPrice.loe(search.priceMax))
         }
 
-        var today: LocalDate = LocalDate.now();
-        queryBuilder.and(item.price.activeFrom.loe(today))
-        queryBuilder.and(item.price.activeTo.goe(today));
 
-        return queryBuilder;
     }
-
 }
 
 interface ItemRepository: PagingAndSortingRepository<Item, Long>, SearchItemRepository {

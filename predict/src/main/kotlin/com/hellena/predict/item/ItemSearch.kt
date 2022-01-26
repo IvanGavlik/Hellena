@@ -6,7 +6,7 @@ import java.math.BigDecimal
 data class ItemSearch (
     val name: String?,
     val categoryIds: List<Long>,
-    val cityIds: List<Long>,
+    val cityName: String?,
     val storeIds: List<Long>,
     val priceMIn: BigDecimal?,
     val priceMax: BigDecimal?,

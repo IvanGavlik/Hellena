@@ -40,7 +40,7 @@ class ItemApiServiceImpl(val itemService: ItemService): ItemApiDelegate {
 
         val search = ItemSearch(
             name = searchItemDto?.name,
-            cityIds = searchItemDto!!.cityIds,
+            cityName = searchItemDto?.cityName,
             storeIds = searchItemDto!!.storeIds,
             categoryIds = searchItemDto!!.categoryIds,
             priceMax = searchItemDto?.priceMax,

@@ -153,11 +153,8 @@ components:
           items:
             type: integer
             format: int64
-        cityIds:
-          type: array
-          items:
-            type: integer
-            format: int64
+        cityName:
+          type: string
         storeIds:
           type: array
           items:
