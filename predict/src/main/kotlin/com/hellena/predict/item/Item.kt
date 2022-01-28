@@ -33,11 +33,11 @@ data class Item(
     @Column(name = "description", nullable = false)
     val description: String,
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     val category: Category,
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "item_store",
         joinColumns = [JoinColumn(name = "item_id", )],
@@ -45,7 +45,7 @@ data class Item(
     )
     val store: List<Store>,
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     val price: Price,
     ) {
