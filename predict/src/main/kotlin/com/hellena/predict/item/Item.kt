@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.PagingAndSortingRepository
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.LocalDate
 import java.util.function.Predicate
 import java.util.stream.Collectors.toList
@@ -17,6 +18,7 @@ import javax.persistence.*
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Root
+import kotlin.jvm.Transient
 import kotlin.math.min
 
 @Entity
@@ -48,6 +50,31 @@ data class Item(
     @JoinColumn(nullable = false)
     val price: Price,
     ) {
+
+    val discountPrice: BigDecimal?
+    @javax.persistence.Transient()
+    get() {
+        if(this.price.originalPrice != null && this.price.actionPrice != null) {
+            return this.price.originalPrice.minus(this.price.actionPrice);
+        }
+        return null;
+    }
+
+    val discountPercentage: BigDecimal?
+    @javax.persistence.Transient()
+    get() {
+        val originalPrice: BigDecimal = this.price.originalPrice;
+        val actionPrice: BigDecimal = this.price.actionPrice;
+        // 100 - ((actionPrice / originalPrice) * 100)
+        if(originalPrice != null && actionPrice != null) {
+            val hundred = BigDecimal(100)
+            return hundred.minus(
+                (actionPrice.divide(originalPrice, RoundingMode.HALF_UP))
+                    .multiply(hundred)
+            )
+        }
+        return null
+    }
 }
 
 interface SearchItemRepository {
@@ -68,7 +95,7 @@ class SearchItemRepositoryImpl(
         return query.selectFrom(item)
             .where(predicate)
             .offset(search.page.getIndex())
-            .limit(search.page.getSize())
+            .limit(search.page.getSize()) // TODO WHAT IF PAGE SIZE IS NOT SET
             .fetch()
     }
 
@@ -101,7 +128,6 @@ class SearchItemRepositoryImpl(
 
         return queryBuilder;
     }
-
 }
 
 interface ItemRepository: PagingAndSortingRepository<Item, Long>, SearchItemRepository {
