@@ -17,9 +17,9 @@ import com.hellena.predict.item.location.LocationRepository
 import com.hellena.predict.item.store.Store
 import com.hellena.predict.item.store.StoreRepository
 import org.springframework.stereotype.Service
-import java.util.stream.Collector
+import java.math.BigDecimal
 import java.util.stream.Collectors
-import java.util.stream.Stream
+import javax.transaction.Transactional
 
 interface ItemService {
     fun getItems(): List<ItemDto>;
@@ -39,7 +39,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
 
     override fun getItems(): List<ItemDto> {
         return itemRepository.findAll().stream()
-            .flatMap {  toItemDTOs(it) }
+            .map {  toItemDTO(it) }
             .collect(Collectors.toList())
     }
 
@@ -61,29 +61,91 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
             .collect(Collectors.toList());
     }
 
+    @Transactional()
     override fun getItems(search: ItemSearch, feature: ItemFeatureType?): List<ItemDto> {
         val itemFeature: ItemFeature? =  this.featureFactory.getFeature(feature);
         if (itemFeature != null) {
             return itemFeature.fetch(search).stream()
-                .flatMap {  toItemDTOs(it) }
+                .map {  toItemDTO(it) }
                 .collect(Collectors.toList());
         } else {
-            return itemRepository.search(search).stream()
-                .flatMap { toItemDTOs(it) }
-                .collect(Collectors.toList())
+            return this.itemRepository.search(search).stream()
+                .map {  toItemDTO(it) }
+                .collect(Collectors.toList());
         }
     }
 
-    private fun toItemDTOs(item: Item): Stream<ItemDto> {
-        return item.store.stream()
-            .map { toItemDTO(item, it.name) };
+    private fun basicSearchItems(search: ItemSearch): List<ItemDto> {
+        var skip = 0L;
+        if (search.page.getIndex() > 0) {
+            skip = search.page.getIndex() * search.page.getSize()
+        }
+        return itemRepository.findAll().stream()
+            .filter { filterByName(it, search.name) }
+            .filter { filterByCity(it, search.cityName) }
+            .filter { filterByCategory(it, search.categoryIds) }
+            .filter { filterByStore(it, search.storeIds) }
+            .filter { filterByPriceMIn(it, search.priceMIn) }
+            .filter { filterByPriceMax(it, search.priceMIn) }
+            .skip(skip)
+            .limit(search.page.getSize())
+            .map { toItemDTO(it) }
+            .collect(Collectors.toList())
     }
 
-    private fun toItemDTO(it: Item, storeName: String): ItemDto {
+    private fun filterByName(item: Item, name: String?) : Boolean {
+        if (name != null) {
+            return name?.contains(name);
+        }
+        return true;
+    }
+
+    private fun filterByCity(item: Item, cityName: String?) : Boolean {
+        if(cityName != null) {
+            return item.store.location.city.contentEquals(cityName);
+        }
+        return true;
+    }
+
+    private fun filterByCategory(item: Item, categoryIds: List<Long>) : Boolean {
+        var byCat = true;
+        if(categoryIds.isNotEmpty()) {
+            byCat = categoryIds.stream()
+                .filter({ it == item.category.id })
+                .findFirst()
+                .isPresent;
+        }
+        return byCat;
+    }
+
+    private fun filterByStore(item: Item, storeIds: List<Long>) : Boolean {
+        if(storeIds.isNotEmpty()) {
+            return storeIds.stream().filter { item.store.id == it }.findFirst().isPresent
+        }
+        return true;
+    }
+
+    private fun filterByPriceMIn(item: Item, minPrice: BigDecimal?) : Boolean {
+        var price = true;
+        if (minPrice != null) {
+            price = item.price.actionPrice.equals(minPrice);
+        }
+        return price;
+    }
+
+    private fun filterByPriceMax(item: Item, maxPrice: BigDecimal?) : Boolean {
+        var price = true;
+        if (maxPrice != null) {
+            price = item.price.actionPrice.equals(maxPrice);
+        }
+        return price;
+    }
+
+    private fun toItemDTO(it: Item): ItemDto {
         val dto = ItemDto(
             id = it.id,
             name = it.name,
-            storeName = storeName,
+            storeName = it.store.name,
             orginalPrice = it.price.originalPrice,
             actionPrice = it.price.actionPrice,
         );

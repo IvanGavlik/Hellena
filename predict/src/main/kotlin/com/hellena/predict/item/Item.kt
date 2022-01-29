@@ -4,10 +4,13 @@ import com.hellena.predict.item.QItem.Companion.item
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.price.Price
 import com.hellena.predict.item.store.Store
+import com.querydsl.core.BooleanBuilder
+import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.PagingAndSortingRepository
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.util.function.Predicate
 import java.util.stream.Collectors.toList
 import javax.persistence.*
@@ -37,13 +40,9 @@ data class Item(
     @JoinColumn(nullable = false)
     val category: Category,
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "item_store",
-        joinColumns = [JoinColumn(name = "item_id", )],
-        inverseJoinColumns = [JoinColumn(name ="store_id", referencedColumnName = "id")]
-    )
-    val store: List<Store>,
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    val store: Store,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
@@ -60,90 +59,49 @@ class SearchItemRepositoryImpl(
     val entityManager: EntityManager
 ): SearchItemRepository {
 
-    override fun search(search: ItemSearch): List<Item> {
-        val builder: CriteriaBuilder = entityManager.criteriaBuilder
-        val query: CriteriaQuery<Item> = builder.createQuery(Item::class.java)
-        val root: Root<Item> = query.from(Item::class.java)
+    private val query = JPAQueryFactory(this.entityManager)
 
-        query.select(root);
+    override fun search(search: ItemSearch): MutableList<Item> {
+        val item = QItem.item;
 
-        // TODO sql for this (query)
-        var skip = 0L;
-        if (search.page.getIndex() > 0) {
-            skip = search.page.getIndex() * search.page.getSize()
-        }
-
-
-        return entityManager.createQuery(query).resultList.stream()
-            .filter { filterByName(it, search.name) }
-            .filter { filterByCity(it, search.cityName) }
-            .filter { filterByCategory(it, search.categoryIds) }
-            .filter { filterByStore(it, search.storeIds) }
-            .filter { filterByPriceMIn(it, search.priceMIn) }
-            .filter { filterByPriceMax(it, search.priceMIn) }
-            .skip(skip)
+        val predicate = buildPredicate(search, item);
+        return query.selectFrom(item)
+            .where(predicate)
+            .offset(search.page.getIndex())
             .limit(search.page.getSize())
-            .collect(toList());
+            .fetch()
     }
 
-    private fun filterByName(item: Item, name: String?) : Boolean {
-        var byName = true;
-        if (name != null) {
-            byName = name?.contains(name);
+    private fun buildPredicate(search: ItemSearch, item: QItem): BooleanBuilder {
+
+        val queryBuilder = BooleanBuilder();
+
+        if (search.name != null) {
+            queryBuilder.and( item.name.contains(search.name) )
         }
-        return byName;
+        if (search.categoryIds.isNotEmpty()) {
+            queryBuilder.and( item.category.id.`in`(search.categoryIds) )
+        }
+        if (search.cityName != null) {
+            queryBuilder.and( item.store.location.city.contains(search.cityName) )
+        }
+        if(search.storeIds.isNotEmpty()) {
+            queryBuilder.and( item.store.id.`in`(search.storeIds) )
+        }
+        if (search.priceMIn != null && search.priceMIn.toDouble() > 0) {
+            queryBuilder.and( item.price.actionPrice.goe(search.priceMIn))
+        }
+        if (search.priceMax != null && search.priceMax.toDouble() > 0) {
+            queryBuilder.and( item.price.actionPrice.loe(search.priceMax))
+        }
+
+        var today: LocalDate = LocalDate.now();
+        queryBuilder.and(item.price.activeFrom.loe(today))
+        queryBuilder.and(item.price.activeTo.goe(today));
+
+        return queryBuilder;
     }
 
-    private fun filterByCity(item: Item, city: String?) : Boolean {
-        var byCity = true;
-        if(city != null) {
-            byCity = item.store.stream()
-                .filter( { it.location.city.equals(city)  } )
-                .findFirst()
-                .isPresent
-        }
-        return byCity;
-    }
-
-    private fun filterByCategory(item: Item, categoryIds: List<Long>) : Boolean {
-        var byCat = true;
-        if(categoryIds.isNotEmpty()) {
-            byCat = categoryIds.stream()
-                .filter({ it == item.category.id })
-                .findFirst()
-                .isPresent;
-        }
-        return byCat;
-    }
-
-    private fun filterByStore(item: Item, storeIds: List<Long>) : Boolean {
-        var byStore = true;
-        if(storeIds.isNotEmpty()) {
-            byStore = false;
-            item.store.forEach {
-                if (storeIds.contains(it.id)) {
-                    byStore = true;
-                }
-            }
-        }
-        return byStore;
-    }
-
-    private fun filterByPriceMIn(item: Item, minPrice: BigDecimal?) : Boolean {
-        var price = true;
-        if (minPrice != null) {
-            price = item.price.actionPrice.equals(minPrice);
-        }
-        return price;
-    }
-
-    private fun filterByPriceMax(item: Item, maxPrice: BigDecimal?) : Boolean {
-        var price = true;
-        if (maxPrice != null) {
-            price = item.price.actionPrice.equals(maxPrice);
-        }
-        return price;
-    }
 }
 
 interface ItemRepository: PagingAndSortingRepository<Item, Long>, SearchItemRepository {
@@ -151,4 +109,3 @@ interface ItemRepository: PagingAndSortingRepository<Item, Long>, SearchItemRepo
 
     override fun findAll(pageable: Pageable): Page<Item>
 }
-

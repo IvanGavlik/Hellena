@@ -38,7 +38,7 @@ enum class ItemFeatureType {
 class CheapestTodayItemFeature(val itemRepository: ItemRepository): ItemFeature {
     override fun fetch(search: ItemSearch): List<Item> {
         // TODO Implement
-        return itemRepository.search(search);
+        return itemRepository.findAll();
     }
 }
 
