@@ -6,6 +6,7 @@ import com.hellena.predict.item.ItemRepository
 import com.hellena.predict.item.ItemSearch
 import com.hellena.predict.item.feature.ItemFeatureType.*
 import com.hellena.predict.search.Page
+import com.hellena.predict.search.Paginator
 import com.hellena.predict.search.Sort
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -28,7 +29,7 @@ class FeatureFactory(val app: ApplicationContext) {
 
 
 interface ItemFeature {
-    fun fetch(search: ItemSearch): List<Item>;
+    fun fetch(search: ItemSearch): Paginator<Item>;
 }
 
 enum class ItemFeatureType {
@@ -41,7 +42,7 @@ enum class ItemFeatureType {
 
 @Component
 class CheapestTodayItemFeature(val itemRepository: ItemRepository): ItemFeature {
-    override fun fetch(search: ItemSearch): List<Item> {
+    override fun fetch(search: ItemSearch): Paginator<Item> {
 
        val searchAll = ItemSearch(
            name = search.name,
@@ -53,12 +54,15 @@ class CheapestTodayItemFeature(val itemRepository: ItemRepository): ItemFeature 
            page = getAll()
        );
 
-        return itemRepository.search(searchAll).stream()
-            .filter { it.discountPercentage != null }
-            .skip(search.page.getIndex())
-            .limit(search.page.getSize())
-            .sorted { i1, i2 -> i2.discountPercentage!!.toInt()!!.compareTo(i1.discountPercentage!!.toInt()) }
-            .collect(Collectors.toList());
+        val pages =  itemRepository.search(searchAll)
+        val list =  pages.elements.stream()
+                .filter { it.discountPercentage != null }
+                .skip(search.page.getIndex())
+                .limit(search.page.getSize())
+                .sorted { i1, i2 -> i2.discountPercentage!!.toInt()!!.compareTo(i1.discountPercentage!!.toInt()) }
+                .collect(Collectors.toList());
+
+        return Paginator(pages.size, list);
     }
 
     fun getAll(): Page {
@@ -78,7 +82,7 @@ class CheapestTodayItemFeature(val itemRepository: ItemRepository): ItemFeature 
 
 @Component
 class CheapestFirstItemFeature: ItemFeature {
-    override fun fetch(search: ItemSearch): List<Item> {
+    override fun fetch(search: ItemSearch): Paginator<Item> {
         println("CheapestFirstItemFeature");
         TODO("Not yet implemented")
     }

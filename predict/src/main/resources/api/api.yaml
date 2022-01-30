@@ -45,9 +45,8 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/itemDto'
+                type: object
+                $ref: '#/components/schemas/pageItemDto'
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -187,6 +186,18 @@ components:
         page:
           type: object
           $ref: '#/components/schemas/pageDto'
+    pageItemDto:
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int64
+          description: Number of all items in db based by search.
+        page:
+          type: array
+          items:
+            $ref: '#/components/schemas/itemDto'
+          description: First page of all items (how many items in declared size property)
     categoryDto:
       type: object
       properties:

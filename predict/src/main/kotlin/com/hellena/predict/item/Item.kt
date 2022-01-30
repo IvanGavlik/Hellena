@@ -4,6 +4,7 @@ import com.hellena.predict.item.QItem.Companion.item
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.price.Price
 import com.hellena.predict.item.store.Store
+import com.hellena.predict.search.Paginator
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
@@ -78,7 +79,7 @@ data class Item(
 }
 
 interface SearchItemRepository {
-    fun search(search: ItemSearch): List<Item>;
+    fun search(search: ItemSearch): Paginator<Item>;
 }
 
 class SearchItemRepositoryImpl(
@@ -88,15 +89,17 @@ class SearchItemRepositoryImpl(
 
     private val query = JPAQueryFactory(this.entityManager)
 
-    override fun search(search: ItemSearch): MutableList<Item> {
+    override fun search(search: ItemSearch): Paginator<Item> {
         val item = QItem.item;
 
         val predicate = buildPredicate(search, item);
-        return query.selectFrom(item)
+
+        val result = query.selectFrom(item)
             .where(predicate)
             .offset(search.page.getIndex())
             .limit(search.page.getSize()) // TODO WHAT IF PAGE SIZE IS NOT SET
-            .fetch()
+            .fetchResults()
+        return Paginator<Item>(result.total, result.results)
     }
 
     private fun buildPredicate(search: ItemSearch, item: QItem): BooleanBuilder {

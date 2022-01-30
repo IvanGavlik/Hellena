@@ -1,9 +1,6 @@
 package com.hellena.predict.item.service
 
-import com.hellena.predict.api.model.CategoryDto
-import com.hellena.predict.api.model.CityDto
-import com.hellena.predict.api.model.ItemDto
-import com.hellena.predict.api.model.StoreDto
+import com.hellena.predict.api.model.*
 import com.hellena.predict.item.Item
 import com.hellena.predict.item.ItemRepository
 import com.hellena.predict.item.ItemSearch
@@ -22,7 +19,7 @@ import javax.transaction.Transactional
 
 interface ItemService {
     fun getItems(): List<ItemDto>;
-    fun getItems(search: ItemSearch, feature: ItemFeatureType?): List<ItemDto>;
+    fun getItems(search: ItemSearch, feature: ItemFeatureType?): PageItemDto;
     fun getCategories(): List<CategoryDto>;
     fun getCities(): List<CityDto>;
     fun getStores(): List<StoreDto>;
@@ -51,6 +48,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
     override fun getCities(): List<CityDto> {
         return locationRepository.findAll().stream()
             .map { toCityDto(it) }
+            .distinct()
             .collect(Collectors.toList());
     }
 
@@ -61,16 +59,20 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
     }
 
     @Transactional()
-    override fun getItems(search: ItemSearch, feature: ItemFeatureType?): List<ItemDto> {
+    override fun getItems(search: ItemSearch, feature: ItemFeatureType?): PageItemDto {
         val itemFeature: ItemFeature? =  this.featureFactory.getFeature(feature);
         if (itemFeature != null) {
-            return itemFeature.fetch(search).stream()
+            val result = itemFeature.fetch(search);
+            val list = result.elements.stream()
                 .map {  toItemDTO(it) }
                 .collect(Collectors.toList());
+            return PageItemDto(result.size, list);
         } else {
-            return this.itemRepository.search(search).stream()
+            val result = this.itemRepository.search(search);
+            val list = result.elements.stream()
                 .map {  toItemDTO(it) }
                 .collect(Collectors.toList());
+            return PageItemDto(result.size, list);
         }
     }
 

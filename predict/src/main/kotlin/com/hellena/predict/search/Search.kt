@@ -21,3 +21,7 @@ interface Sort {
 enum class SortDirection {
     ASC, DESC;
 }
+
+class Paginator<ELEMENT>(val size: Long,
+                            val elements: List<ELEMENT>) {
+}

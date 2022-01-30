@@ -36,7 +36,7 @@ class ItemApiServiceImpl(val itemService: ItemService): ItemApiDelegate {
         return ResponseEntity(itemService.getStores(), HttpStatus.OK)
     }
 
-    override fun searchItems(searchItemDto: SearchItemDto?): ResponseEntity<List<ItemDto>> {
+    override fun searchItems(searchItemDto: SearchItemDto?): ResponseEntity<PageItemDto> {
 
         val search = ItemSearch(
             name = searchItemDto?.name,
