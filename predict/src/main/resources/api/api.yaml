@@ -138,6 +138,12 @@ components:
           type: number
         actionPrice:
           type: number
+        activeFrom:
+          type: string
+          format: date
+        activeTo:
+          type: string
+          format: date
         discountPrice:
           description: how big is discunt Formula orginalPrice - actionPrice only if orginalPrice is set
           type: number

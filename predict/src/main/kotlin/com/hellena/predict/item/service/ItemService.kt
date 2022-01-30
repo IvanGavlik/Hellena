@@ -81,6 +81,8 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
             storeName = it.store.name,
             orginalPrice = it.price.originalPrice,
             actionPrice = it.price.actionPrice,
+            activeFrom = it.price.activeFrom,
+            activeTo = it.price.activeTo,
             discountPrice = it.discountPrice,
             discountPercentage = it.discountPercentage,
         );
