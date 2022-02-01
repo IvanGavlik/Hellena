@@ -44,39 +44,12 @@ enum class ItemFeatureType {
 class CheapestTodayItemFeature(val itemRepository: ItemRepository): ItemFeature {
     override fun fetch(search: ItemSearch): Paginator<Item> {
 
-       val searchAll = ItemSearch(
-           name = search.name,
-           categoryIds =  search.categoryIds,
-           cityName = search.cityName,
-           storeIds = search.storeIds,
-           priceMIn = search.priceMIn,
-           priceMax = search.priceMax,
-           page = getAll()
-       );
-
-        val pages =  itemRepository.search(searchAll)
-        val list =  pages.elements.stream()
-                .filter { it.discountPercentage != null }
-                .skip(search.page.getIndex())
-                .limit(search.page.getSize())
-                .sorted { i1, i2 -> i2.discountPercentage!!.toInt()!!.compareTo(i1.discountPercentage!!.toInt()) }
+        val pages = itemRepository.searchDiscountExistOrderByBiggestAsc(search)
+        val list = pages.elements.stream()
+                .sorted { i1, i2 -> i2.discountPercentage!!.toInt()!!.compareTo(i1.discountPercentage!!.toInt()) } // TODO MOVE TO SQLs
                 .collect(Collectors.toList());
 
         return Paginator(pages.size, list);
-    }
-
-    fun getAll(): Page {
-        return object: Page {
-            override fun getIndex(): Long {
-                return 0;
-            }
-            override fun getSize(): Long {
-                return 1200; // TODO WHAT IF PAGE SIZE IS NOT SET
-            }
-            override fun getSort(): List<Sort> {
-                return emptyList();
-            }
-        }
     }
 }
 

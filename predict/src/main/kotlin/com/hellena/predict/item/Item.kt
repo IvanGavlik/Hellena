@@ -80,6 +80,8 @@ data class Item(
 
 interface SearchItemRepository {
     fun search(search: ItemSearch): Paginator<Item>;
+
+    fun searchDiscountExistOrderByBiggestAsc(search: ItemSearch): Paginator<Item>;
 }
 
 class SearchItemRepositoryImpl(
@@ -92,7 +94,7 @@ class SearchItemRepositoryImpl(
     override fun search(search: ItemSearch): Paginator<Item> {
         val item = QItem.item;
 
-        val predicate = buildPredicate(search, item);
+        val predicate = buildSimpleSearchPredicate(search, item);
 
         val result = query.selectFrom(item)
             .where(predicate)
@@ -102,7 +104,20 @@ class SearchItemRepositoryImpl(
         return Paginator<Item>(result.total, result.results)
     }
 
-    private fun buildPredicate(search: ItemSearch, item: QItem): BooleanBuilder {
+    override fun searchDiscountExistOrderByBiggestAsc(search: ItemSearch): Paginator<Item> {
+        val item = QItem.item;
+
+        val predicate = buildDiscountSearchPredicate(search, item);
+
+        val result = query.selectFrom(item)
+            .where(predicate)
+            .offset(search.page.getIndex())
+            .limit(search.page.getSize()) // TODO WHAT IF PAGE SIZE IS NOT SET
+            .fetchResults()
+        return Paginator<Item>(result.total, result.results)
+    }
+
+    private fun buildSimpleSearchPredicate(search: ItemSearch, item: QItem): BooleanBuilder {
 
         val queryBuilder = BooleanBuilder();
 
@@ -126,6 +141,38 @@ class SearchItemRepositoryImpl(
         }
 
         var today: LocalDate = LocalDate.now();
+        queryBuilder.and(item.price.activeFrom.loe(today))
+        queryBuilder.and(item.price.activeTo.goe(today));
+
+        return queryBuilder;
+    }
+
+    private fun buildDiscountSearchPredicate(search: ItemSearch, item: QItem): BooleanBuilder {
+
+        val queryBuilder = BooleanBuilder();
+
+        if (search.name != null) {
+            queryBuilder.and( item.name.contains(search.name) )
+        }
+        if (search.categoryIds.isNotEmpty()) {
+            queryBuilder.and( item.category.id.`in`(search.categoryIds) )
+        }
+        if (search.cityName != null) {
+            queryBuilder.and( item.store.location.city.contains(search.cityName) )
+        }
+        if(search.storeIds.isNotEmpty()) {
+            queryBuilder.and( item.store.id.`in`(search.storeIds) )
+        }
+        if (search.priceMIn != null && search.priceMIn.toDouble() > 0) {
+            queryBuilder.and( item.price.actionPrice.goe(search.priceMIn))
+        }
+        if (search.priceMax != null && search.priceMax.toDouble() > 0) {
+            queryBuilder.and( item.price.actionPrice.loe(search.priceMax))
+        }
+
+        var today: LocalDate = LocalDate.now();
+        queryBuilder.and(item.price.originalPrice.isNotNull);
+        queryBuilder.and(item.price.actionPrice.isNotNull);
         queryBuilder.and(item.price.activeFrom.loe(today))
         queryBuilder.and(item.price.activeTo.goe(today));
 
