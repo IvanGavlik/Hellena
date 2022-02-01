@@ -48,7 +48,6 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
     override fun getCities(): List<CityDto> {
         return locationRepository.findAll().stream()
             .map { toCityDto(it) }
-            .distinct()
             .collect(Collectors.toList());
     }
 
