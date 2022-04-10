@@ -11,6 +11,20 @@ servers:
 tags:
   - name: "init"
 paths:
+  /item/new:
+    summary: Inset new item
+    description: Insert new item with its image
+    post:
+      operationId: createItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/itemInsertDto'
+      responses:
+        '201':
+          description: Created
   /item/all:
     summary: Item endpoint
     description: Place that holds all item operations
@@ -123,6 +137,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/sortDto'
+    itemInsertDto:
+      type: object
+      properties:
+        name:
+          type: string
+        orginalPrice:
+          type: number
+        actionPrice:
+          type: number
+        activeFrom:
+          type: string
+          format: date
+        activeTo:
+          type: string
+          format: date
+        store:
+          type: integer
+          format: int64
+        category:
+          type: integer
+          format: int64
+        image:
+          type: string
     itemDto:
       type: object
       properties:

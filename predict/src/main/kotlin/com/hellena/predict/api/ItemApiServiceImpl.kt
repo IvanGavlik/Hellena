@@ -18,6 +18,11 @@ import java.util.stream.Collectors
 class ItemApiServiceImpl(val itemService: ItemService): ItemApiDelegate {
 
 
+    override fun createItem(itemInsertDto: ItemInsertDto?): ResponseEntity<Unit> {
+        System.out.println("insert req " + itemInsertDto);
+        return ResponseEntity(HttpStatus.OK);
+    }
+
     override fun getItems(): ResponseEntity<List<ItemDto>> {
         val headers = HttpHeaders()
         headers.accessControlAllowOrigin = "*"
