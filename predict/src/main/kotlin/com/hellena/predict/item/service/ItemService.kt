@@ -9,11 +9,14 @@ import com.hellena.predict.item.category.CategoryRepository
 import com.hellena.predict.item.feature.FeatureFactory
 import com.hellena.predict.item.feature.ItemFeature
 import com.hellena.predict.item.feature.ItemFeatureType
+import com.hellena.predict.item.image.Image
+import com.hellena.predict.item.image.ImageRepository
 import com.hellena.predict.item.location.Location
 import com.hellena.predict.item.location.LocationRepository
 import com.hellena.predict.item.store.Store
 import com.hellena.predict.item.store.StoreRepository
 import org.springframework.stereotype.Service
+import java.util.*
 import java.util.stream.Collectors
 import javax.transaction.Transactional
 
@@ -27,6 +30,7 @@ interface ItemService {
 
 @Service
 class ItemServiceImpl(val itemRepository: ItemRepository,
+                      val imageRepository: ImageRepository,
                       val categoryRepository: CategoryRepository,
                       val locationRepository: LocationRepository,
                       val storeRepository: StoreRepository,
@@ -76,7 +80,12 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
     }
 
     private fun toItemDTO(it: Item): ItemDto {
-        val dto = ItemDto(
+        var imgOptional: Optional<Image> = Optional.empty();
+        if (it.imageId != null) {
+            imgOptional = imageRepository.findById(it.imageId);
+        }
+
+        var dto = ItemDto(
             id = it.id,
             name = it.name,
             storeName = it.store.name,
@@ -86,6 +95,8 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
             activeTo = it.price.activeTo,
             discountPrice = it.discountPrice,
             discountPercentage = it.discountPercentage,
+            imageName = imgOptional.map { it.name }.orElse(null),
+            imageContent = imgOptional.map { it.content.decodeToString() }.orElse(null)
         );
         return dto;
     }

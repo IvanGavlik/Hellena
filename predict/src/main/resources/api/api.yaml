@@ -196,6 +196,11 @@ components:
         discountPercentage:
           description: discuint in percentage Formula 100 - (actionPrice /orginalPrice * 100) only if orginalPrice is set
           type: number
+        imageName:
+          type: string
+        imageContent:
+          description: Image in string base64 format
+          type: string
     searchItemDto:
       type: object
       required:
