@@ -17,6 +17,7 @@ paths:
     post:
       operationId: createItem
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -139,6 +140,13 @@ components:
             $ref: '#/components/schemas/sortDto'
     itemInsertDto:
       type: object
+      required:
+        - name
+        - actionPrice
+        - activeFrom
+        - activeTo
+        - store
+        - category
       properties:
         name:
           type: string
@@ -159,6 +167,8 @@ components:
           type: integer
           format: int64
         image:
+          type: string
+        imageContent:
           type: string
     itemDto:
       type: object

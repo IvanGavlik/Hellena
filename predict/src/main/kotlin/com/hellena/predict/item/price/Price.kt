@@ -8,13 +8,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "price")
 data class Price(
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    val id: Long,
-
     @Column(name = "price")
-    val originalPrice: BigDecimal,
+    val originalPrice: BigDecimal?,
 
     @Column(name = "action_price", nullable = false)
     val actionPrice: BigDecimal,
@@ -27,9 +22,14 @@ data class Price(
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "previous")
-    val previous: Price,
+    val previous: Price?,
 ) {
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    val id: Long? = null;
 }
+
 
 interface PriceRepository: CrudRepository<Price, Long> {
     override fun findAll(): List<Price>;

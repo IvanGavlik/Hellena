@@ -3,6 +3,7 @@ package com.hellena.predict.api
 import com.hellena.predict.api.model.*
 import com.hellena.predict.item.ItemSearch
 import com.hellena.predict.item.feature.ItemFeatureType
+import com.hellena.predict.item.service.ItemInsertService
 import com.hellena.predict.item.service.ItemService
 import com.hellena.predict.search.Page
 import com.hellena.predict.search.Sort
@@ -15,11 +16,11 @@ import java.util.stream.Collectors
 
 
 @Service
-class ItemApiServiceImpl(val itemService: ItemService): ItemApiDelegate {
+class ItemApiServiceImpl(val itemService: ItemService, val itemInsertService: ItemInsertService): ItemApiDelegate {
 
 
-    override fun createItem(itemInsertDto: ItemInsertDto?): ResponseEntity<Unit> {
-        System.out.println("insert req " + itemInsertDto);
+    override fun createItem(itemInsertDto: ItemInsertDto): ResponseEntity<Unit> {
+        itemInsertService.createItem(itemInsertDto);
         return ResponseEntity(HttpStatus.OK);
     }
 

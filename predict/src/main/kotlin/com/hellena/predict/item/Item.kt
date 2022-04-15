@@ -25,10 +25,6 @@ import kotlin.math.min
 @Entity
 @Table(name = "item")
 data class Item(
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    val id: Long,
 
     @Column(name = "name", nullable = false)
     val name: String,
@@ -38,6 +34,9 @@ data class Item(
 
     @Column(name = "description", nullable = false)
     val description: String,
+
+    @Column(name ="image_id", nullable = true)
+    val imageId: Long?,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
@@ -52,6 +51,11 @@ data class Item(
     val price: Price,
     ) {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    var id: Long? = null;
+
     val discountPrice: BigDecimal?
     @javax.persistence.Transient()
     get() {
@@ -64,7 +68,7 @@ data class Item(
     val discountPercentage: BigDecimal?
     @javax.persistence.Transient()
     get() {
-        val originalPrice: BigDecimal = this.price.originalPrice;
+        val originalPrice: BigDecimal? = this.price.originalPrice;
         val actionPrice: BigDecimal = this.price.actionPrice;
         // 100 - ((actionPrice / originalPrice) * 100)
         if(originalPrice != null && actionPrice != null) {
