@@ -49,6 +49,9 @@ data class Item(
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     val price: Price,
+
+    @Column(name ="user_name", nullable = true)
+    val userName: String,
     ) {
 
     @Id

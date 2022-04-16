@@ -147,6 +147,7 @@ components:
         - activeTo
         - store
         - category
+        - user
       properties:
         name:
           type: string
@@ -169,6 +170,8 @@ components:
         image:
           type: string
         imageContent:
+          type: string
+        user:
           type: string
     itemDto:
       type: object

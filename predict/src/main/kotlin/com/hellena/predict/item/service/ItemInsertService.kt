@@ -59,7 +59,7 @@ class ItemInsertServiceImpl(val imageRepository: ImageRepository,
             category =  categoryOptional.orElseThrow { RuntimeException("Category not found")  },
             store = storeOptional.orElseThrow { RuntimeException("Store not found")  },
             price = price,
-
+            userName = itemInsertDto.user
         );
         itemRepository.save(item);
 
