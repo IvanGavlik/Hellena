@@ -51,6 +51,7 @@ class ItemApiServiceImpl(val itemService: ItemService, val itemInsertService: It
             categoryIds = searchItemDto!!.categoryIds,
             priceMax = searchItemDto?.priceMax,
             priceMIn = searchItemDto?.priceMIn,
+            fetchImage = searchItemDto.fetchImage,
             page = toPage(searchItemDto.page)
         )
         val featureInput: String? = searchItemDto?.feature?.value;

@@ -210,6 +210,7 @@ components:
         - categoryIds
         - cityIds
         - storeIds
+        - fetchImage
         - page
       properties:
         name:
@@ -238,6 +239,8 @@ components:
             - CHEAPEST_LAST
             - GREATER_SAVINGS_FIRST
             - GREATER_SAVINGS_LAST
+        fetchImage:
+          type: boolean
         page:
           type: object
           $ref: '#/components/schemas/pageDto'

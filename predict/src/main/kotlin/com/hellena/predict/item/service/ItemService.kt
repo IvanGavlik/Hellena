@@ -39,7 +39,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
 
     override fun getItems(): List<ItemDto> {
         return itemRepository.findAll().stream()
-            .map {  toItemDTO(it) }
+            .map {  toItemDTO(it, true) }
             .collect(Collectors.toList())
     }
 
@@ -67,21 +67,21 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
         if (itemFeature != null) {
             val result = itemFeature.fetch(search);
             val list = result.elements.stream()
-                .map {  toItemDTO(it) }
+                .map {  toItemDTO(it, search.fetchImage) }
                 .collect(Collectors.toList());
             return PageItemDto(result.size, list);
         } else {
             val result = this.itemRepository.search(search);
             val list = result.elements.stream()
-                .map {  toItemDTO(it) }
+                .map {  toItemDTO(it, search.fetchImage) }
                 .collect(Collectors.toList());
             return PageItemDto(result.size, list);
         }
     }
 
-    private fun toItemDTO(it: Item): ItemDto {
+    private fun toItemDTO(it: Item, fetchImg: Boolean): ItemDto {
         var imgOptional: Optional<Image> = Optional.empty();
-        if (it.imageId != null) {
+        if (it.imageId != null && fetchImg) {
             imgOptional = imageRepository.findById(it.imageId);
         }
 

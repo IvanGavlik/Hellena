@@ -10,6 +10,7 @@ data class ItemSearch (
     val storeIds: List<Long>,
     val priceMIn: BigDecimal?,
     val priceMax: BigDecimal?,
+    val fetchImage: Boolean,
     val page: Page
 ) {
 }
