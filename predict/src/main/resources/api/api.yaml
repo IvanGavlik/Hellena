@@ -169,8 +169,6 @@ components:
           format: int64
         image:
           type: string
-        imageContent:
-          type: string
         user:
           type: string
     itemDto:
@@ -201,16 +199,12 @@ components:
           type: number
         imageName:
           type: string
-        imageContent:
-          description: Image in string base64 format
-          type: string
     searchItemDto:
       type: object
       required:
         - categoryIds
         - cityIds
         - storeIds
-        - fetchImage
         - page
       properties:
         name:
@@ -239,8 +233,6 @@ components:
             - CHEAPEST_LAST
             - GREATER_SAVINGS_FIRST
             - GREATER_SAVINGS_LAST
-        fetchImage:
-          type: boolean
         page:
           type: object
           $ref: '#/components/schemas/pageDto'

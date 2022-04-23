@@ -5,8 +5,6 @@ import com.hellena.predict.item.Item
 import com.hellena.predict.item.ItemRepository
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.category.CategoryRepository
-import com.hellena.predict.item.image.Image
-import com.hellena.predict.item.image.ImageRepository
 import com.hellena.predict.item.price.Price
 import com.hellena.predict.item.price.PriceRepository
 import com.hellena.predict.item.store.Store
@@ -21,23 +19,12 @@ interface ItemInsertService {
 }
 
 @Service
-class ItemInsertServiceImpl(val imageRepository: ImageRepository,
-                            val categoryRepository: CategoryRepository,
+class ItemInsertServiceImpl(val categoryRepository: CategoryRepository,
                             val storeRepository: StoreRepository,
                             val priceRepository: PriceRepository,
                             val itemRepository: ItemRepository): ItemInsertService {
     @Transactional
     override fun createItem(itemInsertDto: ItemInsertDto) {
-        var imageId: Long? = null;
-        if (itemInsertDto.image != null && itemInsertDto.imageContent != null) {
-            val image = Image(
-                name = itemInsertDto.name,
-                content = itemInsertDto.imageContent.encodeToByteArray()
-            );
-            imageRepository.save(image);
-            imageId = image.id;
-        }
-
 
         var categoryOptional: Optional<Category> = categoryRepository.findById(itemInsertDto.category);
         var storeOptional: Optional<Store> = storeRepository.findById(itemInsertDto.store);
@@ -55,7 +42,7 @@ class ItemInsertServiceImpl(val imageRepository: ImageRepository,
             name = itemInsertDto.name,
             longName = itemInsertDto.name,
             description =  itemInsertDto.name,
-            imageId = imageId,
+            imageId = itemInsertDto.image,
             category =  categoryOptional.orElseThrow { RuntimeException("Category not found")  },
             store = storeOptional.orElseThrow { RuntimeException("Store not found")  },
             price = price,

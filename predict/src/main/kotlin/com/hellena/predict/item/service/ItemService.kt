@@ -9,14 +9,11 @@ import com.hellena.predict.item.category.CategoryRepository
 import com.hellena.predict.item.feature.FeatureFactory
 import com.hellena.predict.item.feature.ItemFeature
 import com.hellena.predict.item.feature.ItemFeatureType
-import com.hellena.predict.item.image.Image
-import com.hellena.predict.item.image.ImageRepository
 import com.hellena.predict.item.location.Location
 import com.hellena.predict.item.location.LocationRepository
 import com.hellena.predict.item.store.Store
 import com.hellena.predict.item.store.StoreRepository
 import org.springframework.stereotype.Service
-import java.util.*
 import java.util.stream.Collectors
 import javax.transaction.Transactional
 
@@ -30,7 +27,6 @@ interface ItemService {
 
 @Service
 class ItemServiceImpl(val itemRepository: ItemRepository,
-                      val imageRepository: ImageRepository,
                       val categoryRepository: CategoryRepository,
                       val locationRepository: LocationRepository,
                       val storeRepository: StoreRepository,
@@ -39,7 +35,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
 
     override fun getItems(): List<ItemDto> {
         return itemRepository.findAll().stream()
-            .map {  toItemDTO(it, true) }
+            .map {  toItemDTO(it) }
             .collect(Collectors.toList())
     }
 
@@ -67,24 +63,19 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
         if (itemFeature != null) {
             val result = itemFeature.fetch(search);
             val list = result.elements.stream()
-                .map {  toItemDTO(it, search.fetchImage) }
+                .map {  toItemDTO(it) }
                 .collect(Collectors.toList());
             return PageItemDto(result.size, list);
         } else {
             val result = this.itemRepository.search(search);
             val list = result.elements.stream()
-                .map {  toItemDTO(it, search.fetchImage) }
+                .map {  toItemDTO(it) }
                 .collect(Collectors.toList());
             return PageItemDto(result.size, list);
         }
     }
 
-    private fun toItemDTO(it: Item, fetchImg: Boolean): ItemDto {
-        var imgOptional: Optional<Image> = Optional.empty();
-        if (it.imageId != null && fetchImg) {
-            imgOptional = imageRepository.findById(it.imageId);
-        }
-
+    private fun toItemDTO(it: Item): ItemDto {
         var dto = ItemDto(
             id = it.id,
             name = it.name,
@@ -95,8 +86,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
             activeTo = it.price.activeTo,
             discountPrice = it.discountPrice,
             discountPercentage = it.discountPercentage,
-            imageName = imgOptional.map { it.name }.orElse(null),
-            imageContent = imgOptional.map { it.content.decodeToString() }.orElse(null)
+            imageName = it.imageId,
         );
         return dto;
     }

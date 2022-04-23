@@ -36,7 +36,7 @@ data class Item(
     val description: String,
 
     @Column(name ="image_id", nullable = true)
-    val imageId: Long?,
+    val imageId: String?,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)

@@ -52,6 +52,15 @@ Use data class to map table
 Use standard Spring approach when creating repos
 More info [here](https://docs.spring.io/spring-data/jdbc/docs/2.2.5/reference/html/#jdbc.repositories)
 
+#### Storing image
+
+for storing image external service is used its name is Cloudinary
+in table item at column image_id saves public id of image stored in Cloudinary
+
+FE is responsible for saving/fetching images to/from Cloudinary on BE at DB is saved
+public image id
+
+
 ## Deploy
 
 Configured for Heroku platform with Maven plugin (heroku-maven-plugin)

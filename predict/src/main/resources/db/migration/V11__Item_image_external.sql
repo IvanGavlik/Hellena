@@ -1,0 +1,4 @@
+DROP TABLE item_image;
+
+ALTER TABLE item
+ALTER COLUMN image_id TYPE VARCHAR;
