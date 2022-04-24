@@ -1,11 +1,12 @@
 package com.hellena.predict.item
 
-import com.hellena.predict.item.QItem.Companion.item
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.price.Price
 import com.hellena.predict.item.store.Store
 import com.hellena.predict.search.Paginator
 import com.querydsl.core.BooleanBuilder
+import com.querydsl.core.types.Order
+import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -13,14 +14,7 @@ import org.springframework.data.repository.PagingAndSortingRepository
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDate
-import java.util.function.Predicate
-import java.util.stream.Collectors.toList
 import javax.persistence.*
-import javax.persistence.criteria.CriteriaBuilder
-import javax.persistence.criteria.CriteriaQuery
-import javax.persistence.criteria.Root
-import kotlin.jvm.Transient
-import kotlin.math.min
 
 @Entity
 @Table(name = "item")
@@ -105,6 +99,7 @@ class SearchItemRepositoryImpl(
 
         val result = query.selectFrom(item)
             .where(predicate)
+            .orderBy(OrderSpecifier(Order.ASC, item.name))
             .offset(search.page.getIndex())
             .limit(search.page.getSize()) // TODO WHAT IF PAGE SIZE IS NOT SET
             .fetchResults()
@@ -129,7 +124,7 @@ class SearchItemRepositoryImpl(
         val queryBuilder = BooleanBuilder();
 
         if (search.name != null) {
-            queryBuilder.and( item.name.contains(search.name) )
+            queryBuilder.and( item.name.containsIgnoreCase(search.name) )
         }
         if (search.categoryIds.isNotEmpty()) {
             queryBuilder.and( item.category.id.`in`(search.categoryIds) )
@@ -159,7 +154,7 @@ class SearchItemRepositoryImpl(
         val queryBuilder = BooleanBuilder();
 
         if (search.name != null) {
-            queryBuilder.and( item.name.contains(search.name) )
+            queryBuilder.and( item.name.containsIgnoreCase(search.name) )
         }
         if (search.categoryIds.isNotEmpty()) {
             queryBuilder.and( item.category.id.`in`(search.categoryIds) )
