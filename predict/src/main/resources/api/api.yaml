@@ -11,6 +11,21 @@ servers:
 tags:
   - name: "init"
 paths:
+  /msg/new:
+    summary: Create new msg
+    description: Create new simple msg wthout attachments and only one reciver
+    post:
+      operationId: createMsg
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/msgDto'
+      responses:
+        '201':
+          description: Created
   /item/new:
     summary: Inset new item
     description: Insert new item with its image
@@ -138,6 +153,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/sortDto'
+    msgDto:
+      type: object
+      required:
+        - from
+        - to
+        - body
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+        header:
+          type: string
+        body:
+          type: string
     itemInsertDto:
       type: object
       required:
