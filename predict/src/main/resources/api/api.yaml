@@ -82,6 +82,25 @@ paths:
               schema:
                 type: string
                 default: '*'
+  /item/name/search:
+    post:
+      summary: Retun list of item's names
+      operationId: searchItemNames
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: A string list of item's names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
   /item/category/all:
     get:
       summary: Return list of item's categories

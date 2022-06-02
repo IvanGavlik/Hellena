@@ -13,12 +13,16 @@ import com.hellena.predict.item.location.Location
 import com.hellena.predict.item.location.LocationRepository
 import com.hellena.predict.item.store.Store
 import com.hellena.predict.item.store.StoreRepository
+import com.hellena.predict.search.Page
+import com.hellena.predict.search.Sort
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.util.stream.Collectors
 import javax.transaction.Transactional
 
 interface ItemService {
     fun getItems(): List<ItemDto>;
+    fun getItemsNames(name: String): List<String>;
     fun getItems(search: ItemSearch, feature: ItemFeatureType?): PageItemDto;
     fun getCategories(): List<CategoryDto>;
     fun getCities(): List<CityDto>;
@@ -37,6 +41,40 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
         return itemRepository.findAll().stream()
             .map {  toItemDTO(it) }
             .collect(Collectors.toList())
+    }
+
+    override fun getItemsNames(name: String): List<String> {
+        class DefPage: Page {
+            override fun getIndex(): Long {
+                return 1;
+            }
+
+            override fun getSize(): Long {
+                return 12;
+            }
+
+            override fun getSort(): List<Sort>? {
+                return null;
+            }
+        }
+        val search = ItemSearch(
+            name = name,
+            nameStarsWith = true,
+            categoryIds = emptyList(),
+            cityName =  null,
+            storeIds = emptyList(),
+            priceMIn = null,
+            priceMax = null,
+            page = DefPage()
+        );
+
+        val names: MutableList<String> = mutableListOf();
+        this.getItems(search, null)
+            .page!!.stream()
+            .filter { item -> item.name != null }
+            .forEach { item ->  names.add(item.name!!)  }
+
+        return names.toList();
     }
 
     override fun getCategories(): List<CategoryDto> {

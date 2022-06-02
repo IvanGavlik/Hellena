@@ -5,6 +5,7 @@ import java.math.BigDecimal
 
 data class ItemSearch (
     val name: String?,
+    val nameStarsWith:  Boolean?, // TODO refactor
     val categoryIds: List<Long>,
     val cityName: String?,
     val storeIds: List<Long>,

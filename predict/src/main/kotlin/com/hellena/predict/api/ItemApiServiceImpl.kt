@@ -30,6 +30,12 @@ class ItemApiServiceImpl(val itemService: ItemService, val itemInsertService: It
         return ResponseEntity(itemService.getItems(), headers, HttpStatus.OK)
     }
 
+    override fun searchItemNames(body: String): ResponseEntity<List<String>> {
+        val headers = HttpHeaders()
+        headers.accessControlAllowOrigin = "*"
+        return ResponseEntity(itemService.getItemsNames(body), HttpStatus.OK);
+    }
+
     override fun getCategories(): ResponseEntity<List<CategoryDto>> {
         return ResponseEntity(itemService.getCategories(), HttpStatus.OK)
     }
@@ -46,6 +52,7 @@ class ItemApiServiceImpl(val itemService: ItemService, val itemInsertService: It
 
         val search = ItemSearch(
             name = searchItemDto?.name,
+            nameStarsWith = false,
             cityName = searchItemDto?.cityName,
             storeIds = searchItemDto!!.storeIds,
             categoryIds = searchItemDto!!.categoryIds,

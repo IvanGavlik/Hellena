@@ -124,7 +124,11 @@ class SearchItemRepositoryImpl(
         val queryBuilder = BooleanBuilder();
 
         if (search.name != null) {
-            queryBuilder.and( item.name.containsIgnoreCase(search.name) )
+            if (search.nameStarsWith != null && search.nameStarsWith) {
+                queryBuilder.and( item.name.startsWithIgnoreCase(search.name) )
+            } else {
+                queryBuilder.and( item.name.containsIgnoreCase(search.name) )
+            }
         }
         if (search.categoryIds.isNotEmpty()) {
             queryBuilder.and( item.category.id.`in`(search.categoryIds) )
