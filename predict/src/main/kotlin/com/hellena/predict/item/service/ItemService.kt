@@ -3,6 +3,7 @@ package com.hellena.predict.item.service
 import com.hellena.predict.api.model.*
 import com.hellena.predict.fetch.Fetch
 import com.hellena.predict.fetch.konzum.Konzum
+import com.hellena.predict.fetch.plodine.Plodine
 import com.hellena.predict.item.Item
 import com.hellena.predict.item.ItemRepository
 import com.hellena.predict.item.ItemSearch
@@ -40,7 +41,11 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
                       ): ItemService {
 
     override fun getItems(): List<ItemDto> {
-  //    println("itmes " +  Konzum(categoryRepository.findAll(), this.storeRepository).fetch().size)
+  /*    println("itmes " +  Konzum(categoryRepository.findAll(), this.storeRepository).fetch().size)
+        Plodine(this.storeRepository, this.categoryRepository).fetch()
+            .forEach { println(it.name +" " + it.price.actionPrice + " " + it.category.name + " " + it.imageId
+            ) }
+*/
         return itemRepository.findAll().stream()
             .map {  toItemDTO(it) }
             .collect(Collectors.toList())
