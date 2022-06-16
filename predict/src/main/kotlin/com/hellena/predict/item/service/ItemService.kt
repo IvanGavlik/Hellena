@@ -1,6 +1,8 @@
 package com.hellena.predict.item.service
 
 import com.hellena.predict.api.model.*
+import com.hellena.predict.fetch.Fetch
+import com.hellena.predict.fetch.konzum.Konzum
 import com.hellena.predict.item.Item
 import com.hellena.predict.item.ItemRepository
 import com.hellena.predict.item.ItemSearch
@@ -34,10 +36,11 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
                       val categoryRepository: CategoryRepository,
                       val locationRepository: LocationRepository,
                       val storeRepository: StoreRepository,
-                      val featureFactory: FeatureFactory
+                      val featureFactory: FeatureFactory,
                       ): ItemService {
 
     override fun getItems(): List<ItemDto> {
+  //    println("itmes " +  Konzum(categoryRepository.findAll(), this.storeRepository).fetch().size)
         return itemRepository.findAll().stream()
             .map {  toItemDTO(it) }
             .collect(Collectors.toList())
