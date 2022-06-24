@@ -2,6 +2,7 @@ package com.hellena.predict.item.service
 
 import com.hellena.predict.api.model.*
 import com.hellena.predict.fetch.Fetch
+import com.hellena.predict.fetch.kaufland.Kaufland
 import com.hellena.predict.fetch.konzum.Konzum
 import com.hellena.predict.fetch.plodine.Plodine
 import com.hellena.predict.item.Item
@@ -52,7 +53,8 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
       */
 
     //    Konzum(categoryRepository.findAll(), this.storeRepository).fetch().forEach { it ->         itemRepository.save(it) }
-   //     Plodine(this.storeRepository, this.categoryRepository).fetch().forEach { it -> itemRepository.save(it) }
+    //     Plodine(this.storeRepository, this.categoryRepository).fetch().forEach { it -> itemRepository.save(it) }
+    //        Kaufland(this.categoryRepository.findAll(), this.storeRepository).fetch().forEach { this.itemRepository.save(it) }         // TODO PAZI DATUM
         print("DONE :)");
 
         return itemRepository.findAll().stream()
