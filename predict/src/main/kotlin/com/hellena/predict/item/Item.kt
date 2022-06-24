@@ -40,7 +40,7 @@ data class Item(
     @JoinColumn(nullable = false)
     val store: Store,
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(nullable = false)
     val price: Price,
 

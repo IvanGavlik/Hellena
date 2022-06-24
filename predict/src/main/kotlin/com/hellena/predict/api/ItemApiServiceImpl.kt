@@ -1,6 +1,7 @@
 package com.hellena.predict.api
 
 import com.hellena.predict.api.model.*
+import com.hellena.predict.fetch.konzum.Konzum
 import com.hellena.predict.item.ItemSearch
 import com.hellena.predict.item.feature.ItemFeatureType
 import com.hellena.predict.item.service.ItemInsertService

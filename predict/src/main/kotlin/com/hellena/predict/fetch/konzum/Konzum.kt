@@ -18,7 +18,6 @@ import java.util.stream.Collectors
  * from date today -1
  * end date today + 5
  */
-@Service
 class Konzum(val categories: List<Category>, val storeRepository: StoreRepository): Fetch {
 
     val konzumStore: Store = storeRepository.findById(5L).get();

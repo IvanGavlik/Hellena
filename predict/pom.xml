@@ -217,9 +217,9 @@
 				<version>8.0.0</version>
 				<configuration>
 					<schemas>public</schemas>
-					<user>pgoavwmpavzajf</user>
-					<password>32b431ad165d91b970df867005d399033b169b0343f146fb778db3fc8fae4868</password>
-					<url>jdbc:postgresql://ec2-46-137-177-160.eu-west-1.compute.amazonaws.com:5432/d8km1ldggaais3</url>
+					<user>ovslhhtmbfmxsp</user>
+					<password>198b9e8eacc894720fbce99038a8e94225318a2de55caab1f439ea969230ebd6</password>
+					<url>jdbc:postgresql://ec2-99-80-170-190.eu-west-1.compute.amazonaws.com:5432/dfhb7ns8693idk</url>
 				</configuration>
 			</plugin>
 

@@ -23,7 +23,6 @@ import java.util.stream.Collectors
  * -> pošto je tjedna akcije mozda samo 1 tjedno pokrenuti u pon
  * -> end and start date set (same in Konzum)
  */
-@Service
 class Plodine(val storeRepository: StoreRepository, val categoryRepository: CategoryRepository): Fetch {
 
     val plodineStore = storeRepository.findById(1).get();

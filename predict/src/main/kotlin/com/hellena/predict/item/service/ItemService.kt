@@ -14,12 +14,16 @@ import com.hellena.predict.item.feature.ItemFeature
 import com.hellena.predict.item.feature.ItemFeatureType
 import com.hellena.predict.item.location.Location
 import com.hellena.predict.item.location.LocationRepository
+import com.hellena.predict.item.price.Price
+import com.hellena.predict.item.price.PriceRepository
 import com.hellena.predict.item.store.Store
 import com.hellena.predict.item.store.StoreRepository
 import com.hellena.predict.search.Page
 import com.hellena.predict.search.Sort
 import org.springframework.stereotype.Service
+import java.lang.RuntimeException
 import java.math.BigDecimal
+import java.util.*
 import java.util.stream.Collectors
 import javax.transaction.Transactional
 
@@ -38,14 +42,19 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
                       val locationRepository: LocationRepository,
                       val storeRepository: StoreRepository,
                       val featureFactory: FeatureFactory,
+                      val priceRepository: PriceRepository
                       ): ItemService {
 
     override fun getItems(): List<ItemDto> {
-  /*    println("itmes " +  Konzum(categoryRepository.findAll(), this.storeRepository).fetch().size)
-        Plodine(this.storeRepository, this.categoryRepository).fetch()
-            .forEach { println(it.name +" " + it.price.actionPrice + " " + it.category.name + " " + it.imageId
-            ) }
-*/
+        /*       Plodine(this.storeRepository, this.categoryRepository).fetch()
+                  .forEach { println(it.name +" " + it.price.actionPrice + " " + it.category.name + " " + it.imageId
+                  ) }
+      */
+
+    //    Konzum(categoryRepository.findAll(), this.storeRepository).fetch().forEach { it ->         itemRepository.save(it) }
+   //     Plodine(this.storeRepository, this.categoryRepository).fetch().forEach { it -> itemRepository.save(it) }
+        print("DONE :)");
+
         return itemRepository.findAll().stream()
             .map {  toItemDTO(it) }
             .collect(Collectors.toList())
