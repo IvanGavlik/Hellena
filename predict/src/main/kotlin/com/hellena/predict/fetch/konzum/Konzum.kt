@@ -4,12 +4,10 @@ import com.hellena.predict.fetch.Fetch
 import com.hellena.predict.item.Item
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.price.Price
-import com.hellena.predict.item.service.ItemService
 import com.hellena.predict.item.store.Store
 import com.hellena.predict.item.store.StoreRepository
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
-import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.stream.Collectors
@@ -282,7 +280,9 @@ class Konzum(val categories: List<Category>, val storeRepository: StoreRepositor
 
         return productListWrapper.select(".product-item")
             .stream()
-            .map{ toItem(it, category) }
+            .filter { shouldSave(it) }
+            .map{ toItem(it, category)}
+            .filter { it != null }
             .collect(Collectors.toList())
     }
 
@@ -316,5 +316,18 @@ class Konzum(val categories: List<Category>, val storeRepository: StoreRepositor
             price = itemPrice,
             userName = "Hellena",
         )
+    }
+
+    /*
+    * Save only AKCIJA, %, PROMO, SUPERPRILIKA (badge wrapper) Not gray (out-of-stock)
+    * */
+    private fun shouldSave(element: Element): Boolean {
+        if (element.select(".product-item product-default out-of-stock ").first() != null) {
+            return false;
+        }
+        if (element.select(".badge-wrapper").first() != null) {
+            return true;
+        }
+        return false;
     }
 }
