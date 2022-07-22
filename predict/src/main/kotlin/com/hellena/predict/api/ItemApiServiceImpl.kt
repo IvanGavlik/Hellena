@@ -61,9 +61,8 @@ class ItemApiServiceImpl(val itemService: ItemService, val itemInsertService: It
             priceMIn = searchItemDto?.priceMIn,
             page = toPage(searchItemDto.page)
         )
-        val featureInput: String? = searchItemDto?.feature?.value;
-        val feature: ItemFeatureType? = if ( featureInput != null)  ItemFeatureType.valueOf(featureInput) else null;
-        return ResponseEntity(itemService.getItems(search, feature), HttpStatus.OK);
+        // TODO implement feature
+        return ResponseEntity(itemService.getItems(search, null), HttpStatus.OK);
     }
 
     fun toPage(pageDto: PageDto): Page {

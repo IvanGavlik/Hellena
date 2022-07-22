@@ -4,6 +4,7 @@ import com.hellena.predict.api.model.*
 import com.hellena.predict.fetch.Fetch
 import com.hellena.predict.fetch.kaufland.Kaufland
 import com.hellena.predict.fetch.konzum.Konzum
+import com.hellena.predict.fetch.lidl.Lidl
 import com.hellena.predict.fetch.plodine.Plodine
 import com.hellena.predict.item.Item
 import com.hellena.predict.item.ItemRepository
@@ -50,12 +51,30 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
         /*       Plodine(this.storeRepository, this.categoryRepository).fetch()
                   .forEach { println(it.name +" " + it.price.actionPrice + " " + it.category.name + " " + it.imageId
                   ) }
-      */
 
-    //    Konzum(categoryRepository.findAll(), this.storeRepository).fetch().forEach { it ->         itemRepository.save(it) }
-    //     Plodine(this.storeRepository, this.categoryRepository).fetch().forEach { it -> itemRepository.save(it) }
-    //        Kaufland(this.categoryRepository.findAll(), this.storeRepository).fetch().forEach { this.itemRepository.save(it) }         // TODO PAZI DATUM
-        print("DONE :)");
+        try {
+            Plodine(this.storeRepository, this.categoryRepository).fetch().forEach { it -> itemRepository.save(it) }
+        } catch (ex: java.lang.Exception) {
+            println("Plodine " + ex);
+        }
+
+        try {
+            Konzum(categoryRepository.findAll(), this.storeRepository).fetch().forEach { it ->         itemRepository.save(it) }
+        } catch (ex: java.lang.Exception) {
+            println("Konzum " + ex);
+        }
+
+        try {
+            Kaufland(this.categoryRepository.findAll(), this.storeRepository).fetch().forEach { this.itemRepository.save(it) }         // TODO PAZI DATUM
+        } catch (ex: java.lang.Exception) {
+            println("Kaufland " + ex);
+        }
+        */
+
+       // TODO pazi lidk svaka dva tjedna
+       // TODO must manually update category
+       // Lidl(this.storeRepository, this.categoryRepository.findAll().get(0)).fetch().forEach {  this.itemRepository.save(it) };
+
 
         return itemRepository.findAll().stream()
             .map {  toItemDTO(it) }
@@ -114,22 +133,19 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
             .collect(Collectors.toList());
     }
 
+    /**
+     * How data is fetched
+     * Fetch from DB is there is no results for Konzum
+     * then fetch from Kozum web service (only if name is set)
+     */
     @Transactional()
     override fun getItems(search: ItemSearch, feature: ItemFeatureType?): PageItemDto {
-        val itemFeature: ItemFeature? =  this.featureFactory.getFeature(feature);
-        if (itemFeature != null) {
-            val result = itemFeature.fetch(search);
-            val list = result.elements.stream()
-                .map {  toItemDTO(it) }
-                .collect(Collectors.toList());
-            return PageItemDto(result.size, list);
-        } else {
-            val result = this.itemRepository.search(search);
-            val list = result.elements.stream()
-                .map {  toItemDTO(it) }
-                .collect(Collectors.toList());
-            return PageItemDto(result.size, list);
-        }
+        // TODO implement feature
+        val result = this.itemRepository.search(search);
+        val list = result.elements.stream()
+            .map {  toItemDTO(it) }
+            .collect(Collectors.toList());
+        return PageItemDto(result.size, list);
     }
 
     private fun toItemDTO(it: Item): ItemDto {
