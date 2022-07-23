@@ -58,6 +58,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
             println("Plodine " + ex);
         }
 
+        // TODO pazi ima duplkata
         try {
             Konzum(categoryRepository.findAll(), this.storeRepository).fetch().forEach { it ->         itemRepository.save(it) }
         } catch (ex: java.lang.Exception) {
@@ -75,6 +76,8 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
        // TODO must manually update category
        // Lidl(this.storeRepository, this.categoryRepository.findAll().get(0)).fetch().forEach {  this.itemRepository.save(it) };
 
+
+        println("Done")
 
         return itemRepository.findAll().stream()
             .map {  toItemDTO(it) }

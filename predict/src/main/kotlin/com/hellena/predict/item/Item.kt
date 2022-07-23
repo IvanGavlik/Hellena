@@ -109,7 +109,7 @@ class SearchItemRepositoryImpl(
 
         val result = query.selectFrom(item)
             .where(predicate)
-            .orderBy(OrderSpecifier(Order.ASC, item.name))
+            .orderBy(OrderSpecifier(Order.ASC, item.category.id))
             .offset(search.page.getIndex())
             .limit(search.page.getSize()) // TODO WHAT IF PAGE SIZE IS NOT SET
             .fetchResults()
