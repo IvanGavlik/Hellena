@@ -2,6 +2,7 @@ package com.hellena.predict.item.service
 
 import com.hellena.predict.api.model.*
 import com.hellena.predict.fetch.Fetch
+import com.hellena.predict.fetch.interspar.Interspar
 import com.hellena.predict.fetch.kaufland.Kaufland
 import com.hellena.predict.fetch.konzum.Konzum
 import com.hellena.predict.fetch.lidl.Lidl
@@ -48,9 +49,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
                       ): ItemService {
 
     override fun getItems(): List<ItemDto> {
-        /*       Plodine(this.storeRepository, this.categoryRepository).fetch()
-                  .forEach { println(it.name +" " + it.price.actionPrice + " " + it.category.name + " " + it.imageId
-                  ) }
+        /*
 
         try {
             Plodine(this.storeRepository, this.categoryRepository).fetch().forEach { it -> itemRepository.save(it) }
@@ -70,12 +69,24 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
         } catch (ex: java.lang.Exception) {
             println("Kaufland " + ex);
         }
+
+        trx {
+
+        }
+
         */
 
        // TODO pazi lidk svaka dva tjedna
        // TODO must manually update category
-       // Lidl(this.storeRepository, this.categoryRepository.findAll().get(0)).fetch().forEach {  this.itemRepository.save(it) };
+       // Lidl(this.storeRepository, this.categoryRepository.findById(1L).get()).fetch().forEach {  this.itemRepository.save(it) };
 
+        // TODO must manually update category
+        // TODO must manually update dates
+        try {
+            Interspar(this.storeRepository, this.categoryRepository.findById(1L).get()).fetch().forEach { this.itemRepository.save(it) }
+        } catch (ex: java.lang.Exception) {
+                println("Interspar " + ex);
+        }
 
         println("Done")
 

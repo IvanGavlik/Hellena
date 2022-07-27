@@ -204,6 +204,7 @@ class SearchItemRepositoryImpl(
         if (hasKonzum.isNotEmpty()) {
             return TempQueryResults(result.total, result.results);
         }
+        // TODO i DON NOT KNOW category so (KRUH && CATEGORY CHILDREN && STORE IS EMPTY) -> REPONSE kRHU IN CATEGORY
         if (search.storeIds.isNotEmpty()) {
             val hasKonzumInSearch = search.storeIds.filter { 5L == it }
             if (hasKonzumInSearch.isEmpty()) { // search by store but there is no Konzum
