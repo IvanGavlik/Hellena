@@ -187,18 +187,16 @@ class Kaufland(val categories: List<Category>, val storeRepository: StoreReposit
             .replace("-", "00") // TODO MAY BE KAUFLAND CARD
             .trim();
 
-        val start = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.THURSDAY));
+//        val start = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.THURSDAY));
+        val start = LocalDate.now().minusDays(-3);
         val itemPrice = Price(
             originalPrice = null, // TODO original price because of daily deal
             actionPrice = BigDecimal(price),
             activeFrom = start,
-            activeTo = start.plusDays(5), // TODO should change this extract store info
-            previous = null,
+            activeTo = LocalDate.now().plusDays(2), // TODO should change this extract store info
         )
         return Item(
             name = name,
-            longName = name,
-            description = name,
             imageId = imgId,
             category = category,
             store = kauflandStore,

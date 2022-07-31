@@ -49,9 +49,10 @@ class Interspar(val storeRepository: StoreRepository, val category: Category): F
         val itemPrice = Price(
             originalPrice = null, // TODO original price because of daily deal
             actionPrice = priceFromString(price)!!,
-            activeFrom = activeFrom,
-            activeTo = activeFrom.plusDays(6),
-            previous = null,
+            //activeFrom = activeFrom,
+            //activeTo = activeFrom.plusDays(6),
+            activeFrom = LocalDate.now().minusDays(-3),
+            activeTo = LocalDate.now().plusDays(2),
         )
 
         val name = element
@@ -68,8 +69,6 @@ class Interspar(val storeRepository: StoreRepository, val category: Category): F
 
         return Item(
             name = "$name $nameInfo",
-            longName = name,
-            description = name,
             imageId = imgId,
             category = category,
             store = intersparStore,

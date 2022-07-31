@@ -6,7 +6,6 @@ import com.hellena.predict.item.ItemRepository
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.category.CategoryRepository
 import com.hellena.predict.item.price.Price
-import com.hellena.predict.item.price.PriceRepository
 import com.hellena.predict.item.store.Store
 import com.hellena.predict.item.store.StoreRepository
 import org.springframework.stereotype.Service
@@ -21,7 +20,6 @@ interface ItemInsertService {
 @Service
 class ItemInsertServiceImpl(val categoryRepository: CategoryRepository,
                             val storeRepository: StoreRepository,
-                            val priceRepository: PriceRepository,
                             val itemRepository: ItemRepository): ItemInsertService {
     @Transactional
     override fun createItem(itemInsertDto: ItemInsertDto) {
@@ -34,14 +32,10 @@ class ItemInsertServiceImpl(val categoryRepository: CategoryRepository,
             actionPrice = itemInsertDto.actionPrice,
             activeFrom = itemInsertDto.activeFrom,
             activeTo = itemInsertDto.activeTo,
-            previous = null,
         );
-        priceRepository.save(price);
 
         var item = Item(
             name = itemInsertDto.name,
-            longName = itemInsertDto.name,
-            description =  itemInsertDto.name,
             imageId = itemInsertDto.image,
             category =  categoryOptional.orElseThrow { RuntimeException("Category not found")  },
             store = storeOptional.orElseThrow { RuntimeException("Store not found")  },

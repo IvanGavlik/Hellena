@@ -1,0 +1,23 @@
+select i.id, i.name, i.category_id, i.store_id, i.image_id, i.user_name,
+       p.price, p.active_from, p.active_to, p.action_price from item i, price p
+where i.price_id = p.id;
+
+
+od 28.07. do 03.08.
+KONZUM
+
+
+od 26.07. do 03.08.
+PLODINE
+
+
+od 27.07. do 02.08.
+KAUFLAND
+
+
+od 27.07. do 02.08.
+INTERSPAR
+
+
+od 25.07. do 31.07.
+LIDL

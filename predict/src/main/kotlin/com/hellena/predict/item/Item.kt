@@ -31,12 +31,6 @@ data class Item(
     @Column(name = "name", nullable = false)
     val name: String,
 
-    @Column(name = "long_name", nullable = false)
-    val longName: String,
-
-    @Column(name = "description", nullable = false)
-    val description: String,
-
     @Column(name ="image_id", nullable = true)
     val imageId: String?,
 
@@ -48,8 +42,7 @@ data class Item(
     @JoinColumn(nullable = false)
     val store: Store,
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(nullable = false)
+    @Embedded()
     val price: Price,
 
     @Column(name ="user_name", nullable = true)
@@ -260,12 +253,9 @@ class SearchItemRepositoryImpl(
             actionPrice = BigDecimal(price),
             activeFrom = LocalDate.now().minusDays(-1),
             activeTo = LocalDate.now().plusDays(5), // TODO should change this extract store info
-            previous = null,
         )
         return Item(
             name = name,
-            longName = name,
-            description = name,
             imageId = imgId,
             category = category,
             store = konzumStore,

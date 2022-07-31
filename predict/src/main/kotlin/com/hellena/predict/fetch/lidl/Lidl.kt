@@ -52,7 +52,6 @@ class Lidl(val storeRepository: StoreRepository, val category: Category): Fetch 
             actionPrice = priceFromString(price)!!,
             activeFrom = activeFrom,
             activeTo = activeFrom.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)), // TODO should change this extract store info
-            previous = null,
         )
 
         val name = element
@@ -65,8 +64,6 @@ class Lidl(val storeRepository: StoreRepository, val category: Category): Fetch 
 
         return Item(
             name = name,
-            longName = name,
-            description = name,
             imageId = imgId,
             category = category,
             store = lidlStore,

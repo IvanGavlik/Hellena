@@ -5,7 +5,6 @@ import com.hellena.predict.fetch.Fetch
 import com.hellena.predict.fetch.interspar.Interspar
 import com.hellena.predict.fetch.kaufland.Kaufland
 import com.hellena.predict.fetch.konzum.Konzum
-import com.hellena.predict.fetch.lidl.Lidl
 import com.hellena.predict.fetch.plodine.Plodine
 import com.hellena.predict.item.Item
 import com.hellena.predict.item.ItemRepository
@@ -13,20 +12,14 @@ import com.hellena.predict.item.ItemSearch
 import com.hellena.predict.item.category.Category
 import com.hellena.predict.item.category.CategoryRepository
 import com.hellena.predict.item.feature.FeatureFactory
-import com.hellena.predict.item.feature.ItemFeature
 import com.hellena.predict.item.feature.ItemFeatureType
 import com.hellena.predict.item.location.Location
 import com.hellena.predict.item.location.LocationRepository
-import com.hellena.predict.item.price.Price
-import com.hellena.predict.item.price.PriceRepository
 import com.hellena.predict.item.store.Store
 import com.hellena.predict.item.store.StoreRepository
 import com.hellena.predict.search.Page
 import com.hellena.predict.search.Sort
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
-import java.math.BigDecimal
-import java.util.*
 import java.util.stream.Collectors
 import javax.transaction.Transactional
 
@@ -45,7 +38,6 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
                       val locationRepository: LocationRepository,
                       val storeRepository: StoreRepository,
                       val featureFactory: FeatureFactory,
-                      val priceRepository: PriceRepository
                       ): ItemService {
 
     override fun getItems(): List<ItemDto> {
@@ -57,7 +49,7 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
             println("Plodine " + ex);
         }
 
-        // TODO pazi ima duplkata
+
         try {
             Konzum(categoryRepository.findAll(), this.storeRepository).fetch().forEach { it ->         itemRepository.save(it) }
         } catch (ex: java.lang.Exception) {
@@ -70,8 +62,12 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
             println("Kaufland " + ex);
         }
 
-        trx {
-
+        // TODO must manually update category
+        // TODO must manually update dates
+         try {
+            Interspar(this.storeRepository, this.categoryRepository.findById(1L).get()).fetch().forEach { this.itemRepository.save(it) }
+        } catch (ex: java.lang.Exception) {
+                println("Interspar " + ex);
         }
 
         */
@@ -80,13 +76,6 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
        // TODO must manually update category
        // Lidl(this.storeRepository, this.categoryRepository.findById(1L).get()).fetch().forEach {  this.itemRepository.save(it) };
 
-        // TODO must manually update category
-        // TODO must manually update dates
-        try {
-            Interspar(this.storeRepository, this.categoryRepository.findById(1L).get()).fetch().forEach { this.itemRepository.save(it) }
-        } catch (ex: java.lang.Exception) {
-                println("Interspar " + ex);
-        }
 
         println("Done")
 

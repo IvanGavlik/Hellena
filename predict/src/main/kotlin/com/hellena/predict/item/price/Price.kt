@@ -5,8 +5,7 @@ import java.math.BigDecimal
 import java.time.LocalDate
 import javax.persistence.*
 
-@Entity
-@Table(name = "price")
+@Embeddable
 data class Price(
     @Column(name = "price")
     val originalPrice: BigDecimal?,
@@ -19,18 +18,4 @@ data class Price(
 
     @Column(name = "active_to", nullable = false)
     val activeTo: LocalDate,
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "previous")
-    val previous: Price?,
-) {
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    val id: Long? = null;
-}
-
-
-interface PriceRepository: CrudRepository<Price, Long> {
-    override fun findAll(): List<Price>;
-}
+)

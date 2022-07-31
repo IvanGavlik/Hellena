@@ -302,14 +302,11 @@ class Konzum(val categories: List<Category>, val storeRepository: StoreRepositor
         val itemPrice = Price(
             originalPrice = null, // TODO original price because of daily deal
             actionPrice = BigDecimal(price),
-            activeFrom = LocalDate.now().minusDays(-1),
-            activeTo = LocalDate.now().plusDays(5), // TODO should change this extract store info
-            previous = null,
+            activeFrom = LocalDate.now().minusDays(3),
+            activeTo = LocalDate.now().plusDays(3), // TODO should change this extract store info
         )
         return Item(
             name = name,
-            longName = name,
-            description = name,
             imageId = imgId,
             category = category,
             store = konzumStore,
