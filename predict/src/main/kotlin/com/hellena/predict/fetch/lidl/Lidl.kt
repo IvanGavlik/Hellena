@@ -101,25 +101,25 @@ class Lidl(val storeRepository: StoreRepository, val category: Category): Fetch 
 
     private fun getLinks(): List<Link> {
         val list = mutableListOf<Link>()
-        // 18.07. - 24.07.
-        list.add(Link(Week.THIS_WEEK_MON, "Ostajemo povoljni", "https://www.lidl.hr/c/ostajemo-povoljni/c5483/w1"))
-        list.add(Link(Week.THIS_WEEK_MON, "Super svježe od ponedjeljka", "https://www.lidl.hr/c/super-svjeze-od-ponedjeljka/c5484/w1"))
-        list.add(Link(Week.THIS_WEEK_MON, "Top brendovi", "https://www.lidl.hr/c/top-brendovi/c5485/w1"))
-        list.add(Link(Week.THIS_WEEK_MON, "Tradicionalni proizvodi","https://www.lidl.hr/c/dozivite-sarenilo-i-okuse-svjezih-tradicionalnih-proizvoda/c5486/w1"))
-        list.add(Link(Week.THIS_WEEK_MON, "Ljetna kombinacija","https://www.lidl.hr/c/odaberi-svoju-ljetnu-kombinaciju/c5476/w1"))
-        list.add(Link(Week.THIS_WEEK_MON, "Vesele boje ljeta","https://www.lidl.hr/c/vesele-boje-ljeta/c5477/w1"))
-        list.add(Link(Week.THIS_WEEK_MON, "Kupaonica","https://www.lidl.hr/c/kupaonica-iz-snova/c5478/w1"))
-        list.add(Link(Week.THIS_WEEK_MON, "Uredno","https://www.lidl.hr/c/uredno-i-pregledno/c5479/w1"))
-        list.add(Link(Week.THIS_WEEK_THU, "Priroda", "https://www.lidl.hr/c/moj-kutak-prirode/c5480/w1"))
-        list.add(Link(Week.THIS_WEEK_THU, "Insekti", "https://www.lidl.hr/c/zastitite-se-od-insekata/c5482/w1"))
-        list.add(Link(Week.THIS_WEEK_THU, "Svježe od četvrtka", "https://www.lidl.hr/c/super-svjeze-od-cetvrtka/c5510/w1"))
-        list.add(Link(Week.THIS_WEEK_THU , "Gril", "https://www.lidl.hr/c/grill-chill-obicaji/c5488/w1"))
-        list.add(Link(Week.THIS_WEEK_THU , "Top brendovi", "https://www.lidl.hr/c/top-brendovi/c5489/w1"))
-        list.add(Link(Week.THIS_WEEK_THU, "Karibi", "https://www.lidl.hr/c/uzivaj-u-okusima-kariba/c5490/w1"))
-        list.add(Link(Week.THIS_WEEK_FRI, "Povoljni petak", "https://www.lidl.hr/c/ostajemo-povoljni-i-vikendom/c5481/w1"))
+        // 01.08. - 07.08.
+        list.add(Link(Week.THIS_WEEK_MON, "Ostajemo povoljni", "https://www.lidl.hr/c/ostajemo-povoljni/c5511/w1"))
+        list.add(Link(Week.THIS_WEEK_MON, "Svježe od ponedjeljka", "https://www.lidl.hr/c/super-svjeze-od-ponedjeljka/c5512/w1"))
+        list.add(Link(Week.THIS_WEEK_MON, "Ostajemo povoljni 2", "https://www.lidl.hr/c/ostajemo-povoljni/c5513/w1"))
+        list.add(Link(Week.THIS_WEEK_MON, "Okusi Grčke", "https://www.lidl.hr/c/uzivaj-u-okusima-grcke/c5514/w1"))
+        list.add(Link(Week.THIS_WEEK_MON, "Okusi Provanse", "https://www.lidl.hr/c/uzivaj-u-okusima-provanse/c5515/w1"))
+        list.add(Link(Week.THIS_WEEK_MON, "Ležeran stil", "https://www.lidl.hr/c/moj-lezeran-ljetni-stil/c5522/w1"))
+        list.add(Link(Week.THIS_WEEK_MON, "Kuhinja", "https://www.lidl.hr/c/opremite-svoju-kuhinju/c5523/w1"))
+        list.add(Link(Week.THIS_WEEK_THU, "Odmor i zabava", "https://www.lidl.hr/c/za-odmor-i-zabavu/c5524/w1"))
+        list.add(Link(Week.THIS_WEEK_THU, "Back to school", "https://www.lidl.hr/c/back-to-school/c5525/w1"))
+        list.add(Link(Week.THIS_WEEK_THU, "Gril", "https://www.lidl.hr/c/grill-chill-obicaji/c5517/w1"))
+        list.add(Link(Week.THIS_WEEK_THU, "Sve po", "https://www.lidl.hr/c/sve-po-5-7-ili-9-kn/c5518/w1"))
+        list.add(Link(Week.THIS_WEEK_THU, "Okusi engleske", "https://www.lidl.hr/c/uzivaj-u-okusima-velike-britanije-i-irske/c5519/w1"))
+        list.add(Link(Week.THIS_WEEK_THU, "Craft", "https://www.lidl.hr/c/ready-for-craft/c5520/w1"))
+        list.add(Link(Week.THIS_WEEK_FRI, "Vikend", "https://www.lidl.hr/c/ostajemo-povoljni-i-vikendom/c5521/w1"))
+
 
         // 25.07. - 31.07.
-        list.add(Link(Week.NEXT_WEEK_MON, "Ostajemo povoljni", "https://www.lidl.hr/c/ostajemo-povoljni/c5499/w2"))
+/*        list.add(Link(Week.NEXT_WEEK_MON, "Ostajemo povoljni", "https://www.lidl.hr/c/ostajemo-povoljni/c5499/w2"))
         list.add(Link(Week.NEXT_WEEK_MON, "Super svježe od ponedjeljka", "https://www.lidl.hr/c/super-svjeze-od-ponedjeljka/c5500/w2"))
         list.add(Link(Week.NEXT_WEEK_MON, "Super ušteda", "https://www.lidl.hr/c/ugrabi-super-ustedu/c5501/w2"))
         list.add(Link(Week.NEXT_WEEK_MON, "Zaštita i njega za obitelj", "https://www.lidl.hr/c/zastita-i-njega-za-cijelu-obitelj/c5502/w2"))
@@ -136,6 +136,8 @@ class Lidl(val storeRepository: StoreRepository, val category: Category): Fetch 
         list.add(Link(Week.NEXT_WEEK_THU, "Osviještena prehrana", "https://www.lidl.hr/c/osvijestena-prehrana-za-dobar-osjecaj/c5508/w2"))
         list.add(Link(Week.NEXT_WEEK_THU, "Veganski proizvodi", "https://www.lidl.hr/c/osvijestena-prehrana-za-dobar-osjecaj/c5508/w2"))
         list.add(Link(Week.NEXT_WEEK_FRI, "Povoljni petak", "https://www.lidl.hr/c/ostajemo-povoljni-i-vikendom/c5498/w2"))
+
+ */
         return list;
     }
 }

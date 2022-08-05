@@ -123,7 +123,7 @@ class Plodine(val storeRepository: StoreRepository, val categoryRepository: Cate
 
         return Item(
             name = itemName,
-            price = Price(null, BigDecimal(price), LocalDate.now().minusDays(4), LocalDate.now().plusDays(3)),
+            price = Price(null, BigDecimal(price), LocalDate.now().minusDays(2), LocalDate.now().plusDays(4)),
             category = category,
             imageId = img,
             store = this.plodineStore,

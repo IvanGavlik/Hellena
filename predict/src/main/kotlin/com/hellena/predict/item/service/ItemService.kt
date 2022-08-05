@@ -1,10 +1,10 @@
 package com.hellena.predict.item.service
 
 import com.hellena.predict.api.model.*
-import com.hellena.predict.fetch.Fetch
 import com.hellena.predict.fetch.interspar.Interspar
 import com.hellena.predict.fetch.kaufland.Kaufland
 import com.hellena.predict.fetch.konzum.Konzum
+import com.hellena.predict.fetch.lidl.Lidl
 import com.hellena.predict.fetch.plodine.Plodine
 import com.hellena.predict.item.Item
 import com.hellena.predict.item.ItemRepository
@@ -72,12 +72,13 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
 
         */
 
-       // TODO pazi lidk svaka dva tjedna
        // TODO must manually update category
        // Lidl(this.storeRepository, this.categoryRepository.findById(1L).get()).fetch().forEach {  this.itemRepository.save(it) };
 
+      //  Lidl(this.storeRepository, this.categoryRepository.findById(1L).get()).fetch().forEach {  this.itemRepository.save(it) };
 
         println("Done")
+
 
         return itemRepository.findAll().stream()
             .map {  toItemDTO(it) }
@@ -102,7 +103,6 @@ class ItemServiceImpl(val itemRepository: ItemRepository,
             name = name,
             nameStarsWith = true,
             categoryIds = emptyList(),
-            cityName =  null,
             storeIds = emptyList(),
             priceMIn = null,
             priceMax = null,

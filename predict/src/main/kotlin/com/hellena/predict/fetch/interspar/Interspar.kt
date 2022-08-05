@@ -51,8 +51,8 @@ class Interspar(val storeRepository: StoreRepository, val category: Category): F
             actionPrice = priceFromString(price)!!,
             //activeFrom = activeFrom,
             //activeTo = activeFrom.plusDays(6),
-            activeFrom = LocalDate.now().minusDays(-3),
-            activeTo = LocalDate.now().plusDays(2),
+            activeFrom = LocalDate.now().minusDays(-1),
+            activeTo = LocalDate.now().plusDays(6),
         )
 
         val name = element

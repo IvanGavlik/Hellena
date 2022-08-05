@@ -188,12 +188,12 @@ class Kaufland(val categories: List<Category>, val storeRepository: StoreReposit
             .trim();
 
 //        val start = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.THURSDAY));
-        val start = LocalDate.now().minusDays(-3);
+        val start = LocalDate.now().minusDays(-1);
         val itemPrice = Price(
             originalPrice = null, // TODO original price because of daily deal
             actionPrice = BigDecimal(price),
             activeFrom = start,
-            activeTo = LocalDate.now().plusDays(2), // TODO should change this extract store info
+            activeTo = LocalDate.now().plusDays(6), // TODO should change this extract store info
         )
         return Item(
             name = name,

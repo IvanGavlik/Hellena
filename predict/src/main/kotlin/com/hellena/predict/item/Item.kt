@@ -16,11 +16,9 @@ import org.jsoup.nodes.Element
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.PagingAndSortingRepository
-import org.springframework.expression.common.ExpressionUtils.toLong
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDate
-import java.util.Collections
 import java.util.stream.Collectors
 import javax.persistence.*
 
@@ -138,9 +136,6 @@ class SearchItemRepositoryImpl(
         if (search.categoryIds.isNotEmpty()) {
             queryBuilder.and( item.category.id.`in`(search.categoryIds) )
         }
-        if (search.cityName != null) {
-            queryBuilder.and( item.store.location.city.contains(search.cityName) )
-        }
         if(search.storeIds.isNotEmpty()) {
             queryBuilder.and( item.store.id.`in`(search.storeIds) )
         }
@@ -166,9 +161,6 @@ class SearchItemRepositoryImpl(
         }
         if (search.categoryIds.isNotEmpty()) {
             queryBuilder.and( item.category.id.`in`(search.categoryIds) )
-        }
-        if (search.cityName != null) {
-            queryBuilder.and( item.store.location.city.contains(search.cityName) )
         }
         if(search.storeIds.isNotEmpty()) {
             queryBuilder.and( item.store.id.`in`(search.storeIds) )
